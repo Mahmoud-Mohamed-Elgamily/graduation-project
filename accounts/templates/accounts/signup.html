@@ -1,0 +1,36 @@
+{#{% extends "base.html" %}#}
+
+{% block content %}
+<div class="container">
+    <h1>Sign Up</h1>
+    {% if form %}
+    <form method="POST">
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" value="Sign Up" class="btn btn-default">
+      </form>
+    {% else %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <label for="id_username">Display name:</label><input type="text" name="username" maxlength="150" autofocus="" required="" id="id_username">
+        <br>
+        <br>
+        <br>
+        <label for="id_email">Email address:</label><input type="email" name="email" maxlength="254" id="id_email">
+        <br>
+        <br>
+        <br>
+        <label for="id_password1">Password:</label><input type="password" name="password1" required="" id="id_password1">
+        <br>
+        <br>
+        <br>
+        <label for="id_password2">Password confirmation:</label><input type="password" name="password2" required="" id="id_password2">
+        <br>
+        <br>
+        <br>
+      <input type="submit" value="Sign Up" class="btn btn-default">
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

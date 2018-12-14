@@ -1,4 +1,4 @@
-"""Graduation URL Configuration
+"""protwo URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.1/topics/http/urls/
@@ -15,7 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from django.urls import include, path
+from django.conf.urls import url
+from accounts import views
+app_name='accounts'
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('signup/', views.signup, name='signup'),
+    path('login/', views.user_login, name='login'),
+    #path('create/', views.artical_create, name='create'),
+    path('logout/', views.logout_view, name='logout'),
+    #url(r'(?P<slug>[\w-]+)/$',views.details),
+    path('home/', views.home_page, name='home'),
+
 ]
