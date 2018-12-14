@@ -4,7 +4,6 @@ from .models import *
 from .doctor import *
 
 # Create your views here.
-
 @login_required
 def tbl(request):
     if request.method =="GET":
@@ -21,14 +20,6 @@ def tbl(request):
         three="الثالثة"
         Four="الرابعة"
         interval=[ [ [one,""],[","],[","],[","],[","],[","],[","]],[[two,""],[","],[","],[","],[","],[","],[","]],[[three,""],[","],[","],[","],[","],[","],[","]],[ [Four,""],[","],[","],[","],[","],[","],[","]]]
-        print("ok")
-        print("ok")
-        print("ok")
-        print("ok")
-        print("ok")
-        print(request)
-        print(request.user)
-        print("ok")
         tabl=table(request.user)
         for subject in tabl:
             lec=tabl[subject]['lec']
@@ -55,21 +46,68 @@ def subjects(request):
         return render(request,"table.html",{"titles":titles,"rows":rows,'subject': 'true'})
 
 
+
+########################################################################
+@login_required
+def students(request,pk):#               دي انا سايبها لبعدين لان السكيرتي هنا مش قد كده
+    if request.method =="GET":
+        rows,name,reject=StudentSubject(pk)
+        titles=[ [name,""] ]
+        return render(request,"table.html",{"titles":titles,"rows":rows})
+
+
+###########################################################################
+@login_required
+def dgree(request,pk):#               دي انا سايبها لبعدين لان السكيرتي هنا مش قد كده
+    if request.method =="GET":
+        titles,rows=Getclums(request.user,pk)
+        return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk})
+
+    if request.method =="POST":
+        if request.POST.get("action")=="تسجيل":
+            postclums(request,pk)
+        else:
+            deleteclums(request,pk)
+        return redirect('doctor:dgree', pk=pk)
+
+
+###################################################################################
+
+
+@login_required
+def AddClm(request,pk):#               دي انا سايبها لبعدين لان السكيرتي هنا مش قد كده
+    if request.method =="GET":
+        hidden=pk
+        return render(request,"form.html",{"hidden":hidden})
+
+
+    if request.method =="POST":
+        addclums(request.user,request.POST.get("title"),request.POST.get("colm"),request.POST.get("hidden"))
+        return redirect('doctor:dgree', pk=pk)
+
+
+
+
+
+######################################################################################################################
+
+
+
 def student_data(request):
-    pass
-    
+    return HttpResponse("not set yet")
+
 
 def results(request):
-    pass
+    return HttpResponse("not set yet")
 
 def exams(request):
-    pass
+    return HttpResponse("not set yet")
 
 def monitor(request):
-    pass
+    return HttpResponse("not set yet")
 
 def profile(request):
-    pass
+    return HttpResponse("not set yet")
 
 def mail(request):
-    pass
+    return HttpResponse("not set yet")

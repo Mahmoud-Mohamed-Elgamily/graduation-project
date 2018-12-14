@@ -20,10 +20,15 @@ app_name='doctor'
 urlpatterns = [
     path('tbl/', views.tbl, name='tbl'),
     path('subjects/', views.subjects, name='subjects'),
+    path('subjects/<int:pk>/', views.students, name='students'),
+    path('dgree/<int:pk>/', views.dgree, name='dgree'),
+    path('addclm/<int:pk>/', views.AddClm, name='addclm'),
+#
     path('stdata/', views.student_data, name='student_data'),
     path('results/', views.results, name='results'),
     path('exams/', views.exams, name='exams'),
     path('monitor/', views.monitor, name='monitor'),
     path('profile/', views.profile, name='profile'),
-    path('mail/', views.mail, name='mail'),    
+    path('mail/', views.mail, name='mail'),
+
 ]

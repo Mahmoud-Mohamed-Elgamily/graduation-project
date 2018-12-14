@@ -25,9 +25,9 @@ def table(user):
         for lec in lecs:
             lecture.update( {lec.subject.name+"@"+lec.day+lec.interval:[ lec.subject.name,[lec.interval,lec.day,lec.location,lec.doctor.name]  ] })
 
-    secs=Table.objects.filter(subject=sbjct.subjects,nameAction='sec',year=yer,term=trm)
-    for sec in secs:
-        section.update( {sec.subject.name+"@"+sec.day+sec.interval:[ sec.subject.name,[sec.interval,sec.day,sec.location,sec.Assistant.name]  ] })
+        secs=Table.objects.filter(subject=sbjct.subjects,nameAction='sec',year=yer,term=trm)
+        for sec in secs:
+            section.update( {sec.subject.name+"@"+sec.day+sec.interval:[ sec.subject.name,[sec.interval,sec.day,sec.location,sec.Assistant.name]  ] })
         try:
             labs=Table.objects.filter(subject=sbjct.subjects,nameAction='lab',year=yer,term=trm)
         except:

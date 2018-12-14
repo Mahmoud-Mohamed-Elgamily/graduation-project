@@ -3,14 +3,10 @@
 
 
 
+<form class="form-group row" method="post">
+{% csrf_token %}
 
-    <div class="row">
-        <div class="body col-md-10">
-            <div class="container">
-                    <div class="container text-center mt-3 header">
-                        <h5>الفصل الدراسي الأول – 2017/2018</h5>
-                        <h6>هندسة الاتصالات والالكترونيات</h6>
-                    </div>
+
                 <table class="responstable">
                     <tr>
                       {% for title in titles %}
@@ -29,31 +25,15 @@
 
 
                 </table>
-            </div>
-        </div>
+{% if register %}
+<input align="center" type="submit" name="action" value="مسح الجدول" class="btn btn-danger">
+<a align="lift" class="btn btn-primary" href="{%url 'doctor:addclm' pk=id %}">اضافة عمود</a>
+<input align="center" type="submit" name="action" value="تسجيل" class="btn btn-success">
 
 
-        <aside class="col-md-2">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">تعريف المقررات</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">إدخال جدول مقرر</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">المسئول عن تدريس المقرر</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">اعداد الطلاب في مفرر</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
-            </ul>
-        </aside>
-    </div>
+{% endif %}
 
+</form>
 
 
 

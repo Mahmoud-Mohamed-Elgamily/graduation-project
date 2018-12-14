@@ -186,7 +186,7 @@ class Students(models.Model):
     year = models.PositiveIntegerField()
 
     class Meta:
-        unique_together = (( "student","department","level","term","year"),("term","year"))
+        unique_together = (( "student","department","level","term","year"),("student","term","year"))
 
     def __str__(self):
         return self.student.name+" to "+self.get_department_display()+" to "+self.get_level_display()+" to "+self.get_term_display()
@@ -340,7 +340,7 @@ class DEG(models.Model):
 
 class LectureDegree (models.Model):
     # Relations
-    degr=models.ManyToManyField(DEG)
+    degr=models.ManyToManyField(DEG,blank=True)
     lecture=models.OneToOneField(Degree,on_delete=models.CASCADE)
     lab=models.PositiveIntegerField(blank=True)
     # Variables
@@ -356,7 +356,7 @@ class LectureDegree (models.Model):
 
 class SectionDegree(models.Model):
     # Relations
-    degr=models.ManyToManyField(DEG)
+    degr=models.ManyToManyField(DEG,blank=True)
     section=models.OneToOneField(Degree,on_delete=models.CASCADE)
     # Variables
     total=models.PositiveIntegerField(blank=True)
@@ -372,7 +372,7 @@ class SectionDegree(models.Model):
 
 class LABDegree(models.Model):
     # Relations
-    degr=models.ManyToManyField(DEG)
+    degr=models.ManyToManyField(DEG,blank=True)
     LAB=models.OneToOneField(Degree,on_delete=models.CASCADE)
     # Variables
     total=models.PositiveIntegerField(blank=True)

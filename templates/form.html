@@ -1,9 +1,8 @@
 {% extends "basic.html" %}
 {% block content %}
 
-
-
-<form class="form-inline" action="/action_page.php">
+<form class="form-inline" method="post">
+  {% csrf_token %}
     <div class="form-group">
       <h3>title of column:</h3>
       </div>
@@ -11,7 +10,7 @@
 
   <div class="form-group">
 
-          <select>
+          <select name="title">
               <option value="1">Midterm</option>
               <option value="2">Quiz</option>
               <option value="3">Report</option>
@@ -28,7 +27,7 @@
 
 
   <div class="form-group">
-          <select>
+          <select name="colm">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -37,8 +36,8 @@
                 <option value="6">6</option>
           </select>
   </div>
-
-  <button type="button" class="btn btn-success">تسجيل</button>
+  <input type="hidden" name="hidden" value="{{hidden}}">
+  <input type="submit" name="" value="تسجيل" class="btn btn-success">
 </form>
 
 
