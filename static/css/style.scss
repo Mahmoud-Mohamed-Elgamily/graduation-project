@@ -1,6 +1,6 @@
 $green : #2dcc70;
 $gray: #69686f;
-$hover :#ff9c9c;
+$hover :#2dcc70;
  
 
 a.nav-link{
@@ -23,8 +23,14 @@ nav.navbar {
       li{
         text-align: right;
         background: #69686fc7;
-        border-radius: 12px;
-        margin-left: 5px;
+        // border-radius: 12px;
+        margin-left: 2px;
+        &:first-child{
+          border-top-right-radius: 12px;
+        }
+        &:last-child{
+          border-top-left-radius: 12px
+        }
       }
   
       li.active{
@@ -37,6 +43,7 @@ nav.navbar {
           background:$green;
           border-radius: 12px;
           transition: background-color .3s;
+          transition: border-radius .3s;
       }
     }
 }

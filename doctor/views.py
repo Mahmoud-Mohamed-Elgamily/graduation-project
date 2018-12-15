@@ -23,7 +23,7 @@ def tbl(request):
         tabl=table(request.user)
         for subject in tabl:
             lec=tabl[subject]['lec']
-            interval[int(lec[0])-1][int(lec[1])]=[ "محاضرة"+"<br>"+str(subject)+"<br>"+lec[3]+"<br>"+lec[2] ,"class='alert alert-success'" ]
+            interval[int(lec[0])-1][int(lec[1])]=[ "محاضرة "+str(subject)+"<br>"+lec[3]+"<br>"+'قاعة '+lec[2] ,"class='alert alert-success'" ]
 
         return render(request,"table.html",{"titles":titles,"rows":interval,'table': 'true',"extend": "basic.html"})
 

@@ -2,39 +2,39 @@
 {% block content %}
 
 
-
-<form class="form-group row" method="post">
-{% csrf_token %}
-
-
-                <table class="responstable">
-                    <tr>
-                      {% for title in titles %}
-                          <th {{title.1 | safe  }} >{{title.0 | safe }}</th>
-                      {% endfor %}
-                    </tr>
+<div class="container">
+  <form class="form-group row" method="post">
+  {% csrf_token %}
 
 
-                  {% for row in rows %}
+                  <table class="responstable">
                       <tr>
-                        {% for index in row %}
-                          <td {{ index.1 | safe }} >{{ index.0 | safe }}</td>
+                        {% for title in titles %}
+                            <th {{title.1 | safe  }} >{{title.0 | safe }}</th>
                         {% endfor %}
                       </tr>
-                    {% endfor %}
 
 
-                </table>
-{% if register %}
-<input align="center" type="submit" name="action" value="مسح الجدول" class="btn btn-danger">
-<a align="lift" class="btn btn-primary" href="{%url 'doctor:addclm' pk=id %}">اضافة عمود</a>
-<input align="center" type="submit" name="action" value="تسجيل" class="btn btn-success">
+                    {% for row in rows %}
+                        <tr>
+                          {% for index in row %}
+                            <td {{ index.1 | safe }} >{{ index.0 | safe }}</td>
+                          {% endfor %}
+                        </tr>
+                      {% endfor %}
 
 
-{% endif %}
+                  </table>
+  {% if register %}
+  <input align="center" type="submit" name="action" value="مسح الجدول" class="btn btn-danger">
+  <a align="lift" class="btn btn-primary" href="{%url 'doctor:addclm' pk=id %}">اضافة عمود</a>
+  <input align="center" type="submit" name="action" value="تسجيل" class="btn btn-success">
 
-</form>
 
+  {% endif %}
+
+  </form>
+</div>
 
 
 

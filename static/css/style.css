@@ -3,7 +3,7 @@ a.nav-link {
 }
 
 a.nav-link:hover {
-  color: #ff9c9c;
+  color: #2dcc70;
 }
 
 nav.navbar {
@@ -18,8 +18,15 @@ nav.navbar div a.navbar-brand, nav.navbar div ul li a.nav-link {
 nav.navbar div li {
   text-align: right;
   background: #69686fc7;
-  border-radius: 12px;
-  margin-left: 5px;
+  margin-left: 2px;
+}
+
+nav.navbar div li:first-child {
+  border-top-right-radius: 12px;
+}
+
+nav.navbar div li:last-child {
+  border-top-left-radius: 12px;
 }
 
 nav.navbar div li.active {
@@ -32,6 +39,8 @@ nav.navbar div li:hover {
   border-radius: 12px;
   -webkit-transition: background-color .3s;
   transition: background-color .3s;
+  -webkit-transition: border-radius .3s;
+  transition: border-radius .3s;
 }
 
 div.row {
