@@ -172,4 +172,9 @@ h1 {
 h1 span {
   color: #167f92;
 }
+
+div#login form {
+  display: table;
+  margin: auto auto;
+}
 /*# sourceMappingURL=style.css.map */
