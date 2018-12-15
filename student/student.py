@@ -41,7 +41,8 @@ def table(user):
 ####################################################################################################################################
 
 
-def RegisterSub(register):
+def RegisterSub(p_k):
+    RegisterSubject.objects.get(pk=p_k)
     register.department=register.subjects.department
     for doctor in register.subjects.dector.all():
         register.current_D.add(doctor)
@@ -55,3 +56,7 @@ def RegisterSub(register):
     register.level=studs.level
     register.term=studs.term
     register.save()
+    degree=Degree.objects.create(subject=self.pk,student=self.students,midterm=0,final=0,total=0)
+    LectureDegree.objects.create(lecture=degree,lab=0,total=0)
+    SectionDegree.objects.create(section=degree,total=0)
+    LABDegree.objects.create(LAB=degree,total=0)
