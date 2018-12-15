@@ -12,11 +12,11 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href='{% static "UCMS/style.css" %}'>
+    <link rel="stylesheet" href='{% static "css/style.css" %}'>
     <title>Hello, world!</title>
 </head>
 
-<body>
+<body style="background: url({% static 'img/background.jpg' %});background-size: cover;">
     <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
         <div class="container text-center">
             <a class="navbar-brand text-cener" href="{% url 'accounts:home' %}" style="transform: translate(50%);margin-right: 50%;">Logo</a>
@@ -34,10 +34,10 @@
     {% endif %}
     <form  method="post" class="form-group">
       {% csrf_token %}
-      <label for="username">username:</label>
+      <label for="username">username</label>
       <input class="form-control" type="text" name="username" placeholder="Enter Username">
       <hr>
-      <label for="password">password:</label>
+      <label for="password">password</label>
       <input class="form-control" type="password" name="password" placeholder="your password">
       
       {% if request.GET.next %}
