@@ -18,44 +18,11 @@
 
 <body>
     <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'accounts:home' %}">Logo</a>
+        <div class="container text-center">
+            <a class="navbar-brand text-cener" href="{% url 'accounts:home' %}" style="transform: translate(50%);margin-right: 50%;">Logo</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                <li class="nav-item {% if data == 'true' %}active{% endif %}">
-                    <a class="nav-link" href="{% url 'doctor:student_data' %}">بيانات الطلاب</a>
-                </li>
-                <li class="nav-item {% if subject == 'true' %}active{% endif %}">
-                    <a class="nav-link" href="{% url 'doctor:subjects' %}">المواد الدراسية</a>
-                </li>
-                <li class="nav-item {% if table == 'true' %}active{% endif %}">
-                    <a class="nav-link" href="{% url 'doctor:tbl' %}">الجداول الدراسية</a>
-                </li>
-                <li class="nav-item {% if results == 'true' %}active{% endif %}">
-                    <a class="nav-link" href="{% url 'doctor:results' %}">الكنترول والنتائج</a>
-                </li>
-                <li class="nav-item {% if exams == 'true' %}active{% endif %}">
-                    <a class="nav-link" href="{% url 'doctor:exams' %}">الامتحانات واللجان</a>
-                </li>
-                
-                <li class="nav-item {% if monitor == 'true' %}active{% endif %}">
-                    <a class="nav-link" href="{% url 'doctor:monitor' %}">الإشراف على النظام</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    تحكم المستخدم
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="{% url 'doctor:profile' %}">الصفحة الشخصية</a>
-                    <a class="dropdown-item" href="{% url 'doctor:mail' %}">الايميل الداخلي</a>
-                    <a class="dropdown-item" href="{% url 'accounts:login' %}">تسجيل الخروج</a>
-                    </div>
-                </li>
-                </ul>
-            </div>
         </div>
     </nav>
 
@@ -65,13 +32,13 @@
     <p class="class3">your username and password didn't match please try again. </p>
     <hr>
     {% endif %}
-    <form  method="post">
+    <form  method="post" class="form-group">
       {% csrf_token %}
       <label for="username">username:</label>
-      <input  type="text" name="username" placeholder="Enter Username">
+      <input class="form-control" type="text" name="username" placeholder="Enter Username">
       <hr>
       <label for="password">password:</label>
-      <input type="password" name="password" placeholder="your password">
+      <input class="form-control" type="password" name="password" placeholder="your password">
       
       {% if request.GET.next %}
       <input type="hidden" name="next" value="{{ request.GET.next }}">
@@ -82,11 +49,11 @@
       
     </form>
   </div>
+
+  <footer id="loginfooter">
+      <h5>copy right</h5>
+  </footer>
     
-  
-    <footer>
-        <h5>copy right</h5>
-    </footer>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
