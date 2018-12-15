@@ -308,8 +308,8 @@ class Table(models.Model):
 
 class Degree(models.Model):
     # Relations
-    subject=models.ForeignKey(RegisterSubject,related_name='subject12',on_delete=  models.SET_NULL,null=True)
-    student=models.ForeignKey(Students,related_name='student31',on_delete=  models.SET_NULL,null=True)
+    subject=models.ForeignKey(RegisterSubject,related_name='subject12',on_delete=models.CASCADE)
+    student=models.ForeignKey(Students,related_name='student31',on_delete=models.CASCADE)
     # Variables
     midterm=models.PositiveIntegerField(blank=True)
     final=models.PositiveIntegerField(blank=True)

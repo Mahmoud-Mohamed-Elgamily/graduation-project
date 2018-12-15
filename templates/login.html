@@ -35,10 +35,10 @@
     <form  method="post" class="form-group">
       {% csrf_token %}
       <label for="username">username</label>
-      <input class="form-control" type="text" name="username" placeholder="Enter Username">
+      <input id='username' class="form-control" type="text" name="username" placeholder="Enter Username">
       <hr>
       <label for="password">password</label>
-      <input class="form-control" type="password" name="password" placeholder="your password">
+      <input id ='password' class="form-control" type="password" name="password" placeholder="your password">
       
       {% if request.GET.next %}
       <input type="hidden" name="next" value="{{ request.GET.next }}">

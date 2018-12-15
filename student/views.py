@@ -37,4 +37,4 @@ def tbl(request):
             except:
                 pass
 
-        return render(request,"table.html",{"titles":titles,"rows":interval})
+        return render(request,"table.html",{"titles":titles,"rows":interval,"extend": "basic.html"})

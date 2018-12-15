@@ -25,7 +25,7 @@ def tbl(request):
             lec=tabl[subject]['lec']
             interval[int(lec[0])-1][int(lec[1])]=[ "محاضرة"+"<br>"+str(subject)+"<br>"+lec[3]+"<br>"+lec[2] ,"class='alert alert-success'" ]
 
-        return render(request,"table.html",{"titles":titles,"rows":interval,'table': 'true'})
+        return render(request,"table.html",{"titles":titles,"rows":interval,'table': 'true',"extend": "basic.html"})
 
 
 
@@ -43,7 +43,7 @@ def subjects(request):
         titles=[ [one,""] , [two,""] , [three,""] , [Four,""] ]
 
         rows=subject(request.user)
-        return render(request,"table.html",{"titles":titles,"rows":rows,'subject': 'true'})
+        return render(request,"table.html",{"titles":titles,"rows":rows,'subject': 'true',"extend": "basic.html"})
 
 
 
@@ -53,15 +53,16 @@ def students(request,pk):#               دي انا سايبها لبعدين �
     if request.method =="GET":
         rows,name,reject=StudentSubject(pk)
         titles=[ [name,""] ]
-        return render(request,"table.html",{"titles":titles,"rows":rows})
+        return render(request,"table.html",{"titles":titles,"rows":rows,"extend": "basic.html"})
 
 
 ###########################################################################
+
 @login_required
 def dgree(request,pk):#               دي انا سايبها لبعدين لان السكيرتي هنا مش قد كده
     if request.method =="GET":
         titles,rows=Getclums(request.user,pk)
-        return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk})
+        return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html"})
 
     if request.method =="POST":
         if request.POST.get("action")=="تسجيل":
@@ -78,7 +79,7 @@ def dgree(request,pk):#               دي انا سايبها لبعدين لا
 def AddClm(request,pk):#               دي انا سايبها لبعدين لان السكيرتي هنا مش قد كده
     if request.method =="GET":
         hidden=pk
-        return render(request,"form.html",{"hidden":hidden})
+        return render(request,"form.html",{"hidden":hidden,"extend": "basic.html"})
 
 
     if request.method =="POST":
