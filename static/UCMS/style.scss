@@ -210,6 +210,18 @@ h1 {
 }
 
 div#login form{
-  display: table;
-  margin: auto auto;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  outline: 2px solid #2dcc70;
+  outline-offset: 10px;
+  text-align: center;
+}
+footer#loginfooter{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
 }
