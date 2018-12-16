@@ -40,9 +40,9 @@ def subject(user):
         lab_Assistancs=""
         for assistant in subject.subject.lab_Assistanc.all():
             lab_Assistancs=lab_Assistancs+str(assistant.name)+"<br>"
-        subjectss=""
-        for subjec in subject.subject.Requirement.all():
-            subjectss=subjectss+str(subjec.name)+"<br>"
+        subjectss=RegisterSubject.objects.filter(subjects=subject.subject,term=str(trm),year=yer ).count()
+        # for subjec in subject.subject.Requirement.all():
+        #     subjectss=subjectss+str(subjec.name)+"<br>"
         url='<a href="'+'/doctor/subjects/'+str(subject.subject.pk)+'"><h4>'+subject.subject.name+'</h4></a>'
         tabl.append( [ [url,""],[assistants,""],[lab_Assistancs,""],[subjectss,""] ] )
     return tabl

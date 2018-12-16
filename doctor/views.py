@@ -39,7 +39,7 @@ def subjects(request):
         one="اسم المادة"
         two="المعيدين"
         three="معدين المعمل"
-        Four="متطلبات المادة"
+        Four="عدد طلاب المادة"
         titles=[ [one,""] , [two,""] , [three,""] , [Four,""] ]
 
         rows=subject(request.user)
