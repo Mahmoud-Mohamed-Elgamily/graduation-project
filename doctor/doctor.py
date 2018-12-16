@@ -99,8 +99,7 @@ def postclums(request,pk):
         lec=LectureDegree.objects.get(lecture=DG)
         for clm in lec.degr.all():
             try:
-                clm.deg=int(request.POST.get(str(clm.pk ) ) )
-                clm.save()
+                clm.update(deg=int(request.POST.get(str(clm.pk ) ) ) )
             except:
                 pass
 
@@ -220,11 +219,10 @@ def postAbsence(request,pk):
         for clm in lec.absence.all():
             try:
                 if request.POST.get(str(clm.pk ) ):
-                    clm.check=True
+                    clm.update(check=True)
                     clm.save()
                 else:
-                    clm.check=False
-                    clm.save()  
+                    clm.update(check=False) 
             except:
                 pass
 
@@ -245,8 +243,7 @@ def deleteAbsence(user,pk,check):
             for clm in lec.absence.all():
                 try:
                     if check:
-                        clm.check=False
-                        clm.save()
+                        clm.update(check=False)
                     else:
                         lec.absence.remove(clm)
                         clm.delete()
