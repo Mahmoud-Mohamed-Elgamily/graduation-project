@@ -85,7 +85,7 @@ def addclums(user,titl,cl,pk):
                 lec=LectureDegree.objects.get(lecture=DG)
                 clum=DEG.objects.create(name=str(title),deg=0)
                 lec.degr.add(clum)
-                lec.save()
+                #lec.save()
         c=c+1
         title=str(titl)+str(c)
      
@@ -98,10 +98,8 @@ def postclums(request,pk):
         DG=Degree.objects.get(subject=student,student=student.students)
         lec=LectureDegree.objects.get(lecture=DG)
         for clm in lec.degr.all():
-            try:
-                clm.update(deg=int(request.POST.get(str(clm.pk ) ) ) )
-            except:
-                pass
+            clm.deg=int(request.POST.get(str(clm.pk ) ) ) 
+            clm.save(update_fields=['deg'])
 
 ######################################################################################################################################
 def Getclums(user,pk):
@@ -144,10 +142,10 @@ def deleteclums(request,pk,check):
                 try:
                     if check:
                         if str(clm.name )== str(request.POST.get(clm.name) ):
-                            lec.degr.remove(clm)
+                            #lec.degr.remove(clm)
                             clm.delete()
                     else:
-                        lec.degr.remove(clm)
+                        #lec.degr.remove(clm)
                         clm.delete()
                 except:
                     pass
@@ -171,7 +169,7 @@ def addAbsence(user,cl,pk):
             lec=LectureDegree.objects.get(lecture=DG)
             clum=Absence.objects.create(name=i+1,check=False)
             lec.absence.add(clum)
-            lec.save()
+            #lec.save()
 
 
 ##########################################################################################################
@@ -220,10 +218,10 @@ def postAbsence(request,pk):
             #try:
             if request.POST.get(str(clm.pk ) ):
                  clm.check=True
-                 clm.save()
+                 clm.save(update_fields=['check'])
             else:
                 clm.check=False
-                clm.save()
+                clm.save(update_fields=['check'])
             #except:
                 #pass
 
@@ -238,17 +236,12 @@ def deleteAbsence(user,pk,check):
     yer,trm=final_term(Table.objects.filter(doctor=doc))
     students=RegisterSubject.objects.filter(current_D=doc,subjects=pk,term=str(trm),year=yer)
     for student in students:
-        try:
-            DG=Degree.objects.get(subject=student,student=student.students)
-            lec=LectureDegree.objects.get(lecture=DG)
-            for clm in lec.absence.all():
-                try:
-                    if check:
-                        clm.update(check=False)
-                    else:
-                        lec.absence.remove(clm)
-                        clm.delete()
-                except:
-                    pass
-        except:
-            pass
+        DG=Degree.objects.get(subject=student,student=student.students)
+        lec=LectureDegree.objects.get(lecture=DG)
+        for clm in lec.absence.all():
+            if check:
+                clm.check=False
+                clm.save(update_fields=['check'])
+            else:
+                #lec.absence.remove(clm)
+                clm.delete()
