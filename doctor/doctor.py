@@ -220,7 +220,6 @@ def postAbsence(request,pk):
             try:
                 if request.POST.get(str(clm.pk ) ):
                     clm.update(check=True)
-                    clm.save()
                 else:
                     clm.update(check=False) 
             except:
