@@ -1,0 +1,21 @@
+{% extends "basic.html" %}
+{% block content %}
+
+
+<div id='login'>
+        <form  method="post" class="form-group">
+          {% csrf_token %}
+          <label for="username">عدد المحاضرات</label>
+          <input id='username' class="form-control" type="text" name="colm" placeholder="عدد المحاضرات">
+          
+          
+          <hr>
+          <input type="hidden" name="hidden" value="{{hidden}}">
+          <input type="submit" name="" value="تسجيل" class="btn btn-success">
+          
+        </form>
+      </div>
+
+
+
+      {% endblock %}

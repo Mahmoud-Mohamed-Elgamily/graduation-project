@@ -67,8 +67,17 @@ def dgree(request,pk):#               دي انا سايبها لبعدين لا
     if request.method =="POST":
         if request.POST.get("action")=="تسجيل":
             postclums(request,pk)
+        elif request.POST.get("action")=="مسح المحدد":
+            deleteclums(request,pk,True)
+        elif request.POST.get("action")=="اضافة عمود":
+            print("ok")
+            print("ok")
+            print("ok")
+            print("ok")
+            print("ok")
+            return redirect('doctor:addclm',pk=pk)
         else:
-            deleteclums(request,pk)
+            deleteclums(request,pk,False)
         return redirect('doctor:dgree', pk=pk)
 
 
@@ -87,6 +96,43 @@ def AddClm(request,pk):#               دي انا سايبها لبعدين ل�
         return redirect('doctor:dgree', pk=pk)
 
 
+
+###################################################################################
+
+
+@login_required
+def addAbsences(request,pk):#               دي انا سايبها لبعدين لان السكيرتي هنا مش قد كده
+    if request.method =="GET":
+        hidden=pk
+        return render(request,"absence.html",{"hidden":hidden,"extend": "basic.html"})
+
+
+    if request.method =="POST":
+        addAbsence(request.user,request.POST.get("colm"),request.POST.get("hidden"))
+        return redirect('doctor:absence', pk=pk)
+        
+
+
+
+
+###########################################################################
+
+@login_required
+def Absences(request,pk):#               دي انا سايبها لبعدين لان السكيرتي هنا مش قد كده
+    if request.method =="GET":
+        titles,rows=GetAbsence(request.user,pk)
+        return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html"})
+
+    if request.method =="POST":
+        if request.POST.get("action")=="تسجيل":
+            postAbsence(request,pk)
+        elif request.POST.get("action")=="مسح المحدد":
+            deleteAbsence(request.user,pk,True)
+        elif request.POST.get("action")=="اضافة عمود":
+            return redirect('doctor:addabsence',pk=pk)
+        else:
+            deleteAbsence(request.user,pk,False)
+        return redirect('doctor:absence', pk=pk)
 
 
 

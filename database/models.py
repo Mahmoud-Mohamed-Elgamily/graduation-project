@@ -72,14 +72,14 @@ interval=(
 
 
 
-NameDeg=(
-(str(1),'Midterm'),
-(str(2),'Quiz'),
-(str(3),'Report'),
-(str(4),'Absence'),
-(str(5),'Section'),
-(str(6),'LAB'),
-)
+# NameDeg=(
+# (str(1),'Midterm'),
+# (str(2),'Quiz'),
+# (str(3),'Report'),
+# (str(4),'Absence'),
+# (str(5),'Section'),
+# (str(6),'LAB'),
+# )
 
 
 
@@ -329,18 +329,20 @@ class Degree(models.Model):
 
 
 class DEG(models.Model):
-    name=models.CharField(max_length=100,choices=NameDeg)
+    name=models.CharField(max_length=100)#,choices=NameDeg)
     deg=models.PositiveIntegerField(blank=True)
 
 
 ############################################################################################################################
-
-
+class Absence(models.Model):
+    name=models.PositiveIntegerField(blank=True)
+    check=models.BooleanField(blank=True)
 
 
 class LectureDegree (models.Model):
     # Relations
     degr=models.ManyToManyField(DEG,blank=True)
+    absence=models.ManyToManyField(Absence,blank=True)
     lecture=models.OneToOneField(Degree,on_delete=models.CASCADE)
     lab=models.PositiveIntegerField(blank=True)
     # Variables
@@ -357,6 +359,7 @@ class LectureDegree (models.Model):
 class SectionDegree(models.Model):
     # Relations
     degr=models.ManyToManyField(DEG,blank=True)
+    absence=models.ManyToManyField(Absence,blank=True)
     section=models.OneToOneField(Degree,on_delete=models.CASCADE)
     # Variables
     total=models.PositiveIntegerField(blank=True)
@@ -373,6 +376,7 @@ class SectionDegree(models.Model):
 class LABDegree(models.Model):
     # Relations
     degr=models.ManyToManyField(DEG,blank=True)
+    absence=models.ManyToManyField(Absence,blank=True)
     LAB=models.OneToOneField(Degree,on_delete=models.CASCADE)
     # Variables
     total=models.PositiveIntegerField(blank=True)

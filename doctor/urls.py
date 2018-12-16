@@ -23,6 +23,8 @@ urlpatterns = [
     path('subjects/<int:pk>/', views.students, name='students'),
     path('dgree/<int:pk>/', views.dgree, name='dgree'),
     path('addclm/<int:pk>/', views.AddClm, name='addclm'),
+    path('absence/<int:pk>/', views.Absences, name='absence'),
+    path('addabsence/<int:pk>/', views.addAbsences, name='addabsence'),
 #
     path('stdata/', views.student_data, name='student_data'),
     path('results/', views.results, name='results'),

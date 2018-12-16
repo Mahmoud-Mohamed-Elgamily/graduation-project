@@ -64,28 +64,39 @@ def StudentSubject(p_k):
 
 ######################################################################################################################################
 
-def addclums(user,title,cl,pk):
+def addclums(user,titl,cl,pk):
     doc=Doctors.objects.get(user=user)
     yer,trm=final_term(Table.objects.filter(doctor=doc))
     students=RegisterSubject.objects.filter(current_D=doc,subjects=pk,term=str(trm),year=yer)
+    titles=[]
+    for student in students:
+        DG=Degree.objects.get(subject=student,student=student.students)
+        lec=LectureDegree.objects.get(lecture=DG)
+        for clm in lec.degr.all():
+            titles.append(clm.name)
+    
+    
+    c=1
+    title=titl         
     for i in range(int(cl)):
         for student in students:
-            DG=Degree.objects.get(subject=student,student=student.students)
-            lec=LectureDegree.objects.get(lecture=DG)
-            clum=DEG.objects.create(name=str(title),deg=0)
-            lec.degr.add(clum)
-            lec.save()
+            if title not in titles :
+                DG=Degree.objects.get(subject=student,student=student.students)
+                lec=LectureDegree.objects.get(lecture=DG)
+                clum=DEG.objects.create(name=str(title),deg=0)
+                lec.degr.add(clum)
+                lec.save()
+        c=c+1
+        title=str(titl)+str(c)
+     
 ##############################################################################################################################@@@
 def postclums(request,pk):
     doc=Doctors.objects.get(user=request.user)
     yer,trm=final_term(Table.objects.filter(doctor=doc))
     students=RegisterSubject.objects.filter(current_D=doc,subjects=pk,term=str(trm),year=yer)
-    rows=[]
     for student in students:
         DG=Degree.objects.get(subject=student,student=student.students)
         lec=LectureDegree.objects.get(lecture=DG)
-        title=[["الاسم",]]
-        index=[[student.students.student.name,""]]
         for clm in lec.degr.all():
             try:
                 clm.deg=int(request.POST.get(str(clm.pk ) ) )
@@ -108,7 +119,7 @@ def Getclums(user,pk):
             index=[[student.students.student.name,""]]
             for clm in lec.degr.all():
                 try:
-                    title.append([clm.get_name_display(),""])
+                    title.append(['<input type="checkbox" name="'+clm.name+'" value='+clm.name+'> '+clm.name,""])
                     index.append(['<input size="1" type="text" name="'+str(clm.pk)+'" value="'+str(clm.deg)+'">',""])
                 except:
                     pass
@@ -121,7 +132,7 @@ def Getclums(user,pk):
 
 #########################################################################################################################################
 
-def deleteclums(request,pk):
+def deleteclums(request,pk,check):
     doc=Doctors.objects.get(user=request.user)
     yer,trm=final_term(Table.objects.filter(doctor=doc))
     students=RegisterSubject.objects.filter(current_D=doc,subjects=pk,term=str(trm),year=yer)
@@ -130,12 +141,115 @@ def deleteclums(request,pk):
         try:
             DG=Degree.objects.get(subject=student,student=student.students)
             lec=LectureDegree.objects.get(lecture=DG)
-            title=[["الاسم",]]
-            index=[[student.students.student.name,""]]
             for clm in lec.degr.all():
                 try:
-                    lec.degr.remove(clm)
-                    clm.delete()
+                    if check:
+                        if str(clm.name )== str(request.POST.get(clm.name) ):
+                            lec.degr.remove(clm)
+                            clm.delete()
+                    else:
+                        lec.degr.remove(clm)
+                        clm.delete()
+                except:
+                    pass
+        except:
+            pass
+
+
+
+
+###########################################################################################################
+
+def addAbsence(user,cl,pk):
+    deleteAbsence(user,pk,False)
+    doc=Doctors.objects.get(user=user)
+    yer,trm=final_term(Table.objects.filter(doctor=doc))
+    students=RegisterSubject.objects.filter(current_D=doc,subjects=pk,term=str(trm),year=yer)
+    titles=[]         
+    for i in range(int(cl)):
+        for student in students:
+            DG=Degree.objects.get(subject=student,student=student.students)
+            lec=LectureDegree.objects.get(lecture=DG)
+            clum=Absence.objects.create(name=i+1,check=False)
+            lec.absence.add(clum)
+            lec.save()
+
+
+##########################################################################################################
+
+
+def GetAbsence(user,pk):
+    doc=Doctors.objects.get(user=user)
+    yer,trm=final_term(Table.objects.filter(doctor=doc))
+    students=RegisterSubject.objects.filter(current_D=doc,subjects=pk,term=str(trm),year=yer)
+    rows=[]
+    title=[]
+    for student in students:
+        try:
+            DG=Degree.objects.get(subject=student,student=student.students)
+            lec=LectureDegree.objects.get(lecture=DG)
+            title=[["الاسم",]]
+            index=[[student.students.student.name,""]]
+            for clm in lec.absence.all():
+                try:
+                    title.append([clm.name,""])
+                    check=""
+                    if clm.check:
+                        check="checked"
+                    index.append(['<input type="checkbox" name="'+str(clm.pk)+'" value="'+str(1)+'"'+check+'>',""])
+                except:
+                    pass
+        except:
+            pass
+        else:
+            rows.append(index)
+    return title,rows
+
+
+
+
+
+#########################################################################################################
+def postAbsence(request,pk):
+    doc=Doctors.objects.get(user=request.user)
+    yer,trm=final_term(Table.objects.filter(doctor=doc))
+    students=RegisterSubject.objects.filter(current_D=doc,subjects=pk,term=str(trm),year=yer)
+    for student in students:
+        DG=Degree.objects.get(subject=student,student=student.students)
+        lec=LectureDegree.objects.get(lecture=DG)
+        for clm in lec.absence.all():
+            try:
+                if request.POST.get(str(clm.pk ) ):
+                    clm.check=True
+                    clm.save()
+                else:
+                    clm.check=False
+                    clm.save()  
+            except:
+                pass
+
+
+
+
+#####################################################################################################
+
+
+def deleteAbsence(user,pk,check):
+    doc=Doctors.objects.get(user=user)
+    yer,trm=final_term(Table.objects.filter(doctor=doc))
+    students=RegisterSubject.objects.filter(current_D=doc,subjects=pk,term=str(trm),year=yer)
+    for student in students:
+        try:
+            DG=Degree.objects.get(subject=student,student=student.students)
+            lec=LectureDegree.objects.get(lecture=DG)
+            for clm in lec.absence.all():
+                try:
+                    if check:
+                        clm.check=False
+                        clm.save()
+                    else:
+                        lec.absence.remove(clm)
+                        clm.delete()
                 except:
                     pass
         except:

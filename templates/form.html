@@ -1,33 +1,30 @@
 {% extends "basic.html" %}
 {% block content %}
-
-<form class="form-inline" method="post">
+<div id='login'>
+<form  method="post">
   {% csrf_token %}
-    <div class="form-group">
-      <h3>title of column:</h3>
-      </div>
+      <label for="title">العنوان</label>
 
 
-  <div class="form-group">
 
-          <select name="title">
-              <option value="1">Midterm</option>
-              <option value="2">Quiz</option>
-              <option value="3">Report</option>
-              <option value="4">Absence</option>
-              <option value="5">Section</option>
-              <option value="6">LAB</option>
+          <select name="title" id="title">
+              <option value="Midterm">Midterm</option>
+              <option value="Quiz">Quiz</option>
+              <option value="Report">Report</option>
+              <option value="Absence">Absence</option>
+              <option value="Section">Section</option>
+              <option value="LAB">LAB</option>
         </select>
-  </div>
+        
+  
 
 
-    <div class="form-group">
-      <h3>number of column in this title:</h3>
-      </div>
+
+        <label for="clm">عدد الاعمدة</label>
+    
 
 
-  <div class="form-group">
-          <select name="colm">
+          <select name="colm" id="clm">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -35,11 +32,13 @@
                 <option value="5">5</option>
                 <option value="6">6</option>
           </select>
-  </div>
+  
+
+
   <input type="hidden" name="hidden" value="{{hidden}}">
   <input type="submit" name="" value="تسجيل" class="btn btn-success">
 </form>
-
+</div>
 
 
 
