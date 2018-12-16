@@ -217,13 +217,15 @@ def postAbsence(request,pk):
         DG=Degree.objects.get(subject=student,student=student.students)
         lec=LectureDegree.objects.get(lecture=DG)
         for clm in lec.absence.all():
-            try:
-                if request.POST.get(str(clm.pk ) ):
-                    clm.update(check=True)
-                else:
-                    clm.update(check=False) 
-            except:
-                pass
+            #try:
+            if request.POST.get(str(clm.pk ) ):
+                 clm.check=True
+                 clm.save()
+            else:
+                clm.check=False
+                clm.save()
+            #except:
+                #pass
 
 
 
