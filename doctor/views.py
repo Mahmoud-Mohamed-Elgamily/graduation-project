@@ -145,10 +145,28 @@ def student_data(request):
 
 
 def results(request):
-    return HttpResponse("not set yet")
+    if request.method =="GET":
+        one="اسم المادة"
+        two="المعيدين"
+        three="معيدين المعمل"
+        Four="عدد طلاب المادة"
+        titles=[ [one,""] , [two,""] , [three,""] , [Four,""] ]
 
-def exams(request):
-    return HttpResponse("not set yet")
+        rows=subject(request.user , '')
+        return render(request,"table.html",{"titles":titles,"rows":rows,'results': 'true',"extend": "basic.html"})
+
+
+def absence(request):
+    if request.method =="GET":
+        one="اسم المادة"
+        two="المعيدين"
+        three="معيدين المعمل"
+        Four="عدد طلاب المادة"
+        titles=[ [one,""] , [two,""] , [three,""] , [Four,""] ]
+
+        rows=subject(request.user , '')
+        return render(request,"table.html",{"titles":titles,"rows":rows,'absence': 'true',"extend": "basic.html"})
+
 
 def monitor(request):
     return HttpResponse("not set yet")
