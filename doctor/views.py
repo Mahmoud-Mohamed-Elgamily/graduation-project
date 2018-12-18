@@ -42,10 +42,16 @@ def subjects(request):
         Four="عدد طلاب المادة"
         titles=[ [one,""] , [two,""] , [three,""] , [Four,""] ]
 
-        rows=subject(request.user)
+        rows=subject(request.user,1)
         return render(request,"table.html",{"titles":titles,"rows":rows,'subject': 'true',"extend": "basic.html"})
 
-
+#####################################################################################################################
+def details(request,pk):
+    subject_pk=Subject.objects.get(pk=pk )
+    titles=[ ['<h1>'+subject_pk.name+'</h1>','colspan="2"'] ]
+    
+    rows=[ [ ["Specialization",""] ,[subject_pk.get_Specialization_display(),'']  ],[ ["department",""] ,[subject_pk.get_department_display(),''] ],[ ["no_hours",""] ,[subject_pk.no_hours,''] ],[ ["Optional",""] ,[subject_pk.get_Optional_display(),''] ],[ ["level",""] ,[subject_pk.get_level_display(),''] ]]
+    return render(request,"table.html",{"titles":titles,"rows":rows,'subject': 'true',"extend": "basic.html"})
 
 ########################################################################
 @login_required

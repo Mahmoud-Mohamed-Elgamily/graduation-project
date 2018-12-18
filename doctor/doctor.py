@@ -27,7 +27,7 @@ def table(user):
 
 
 #######################################################################################################################################
-def subject(user , path='/doctor/subjects/'):
+def subject(user , path=1):
     doc=Doctors.objects.get(user=user)
     doctor=Table.objects.filter(doctor=doc)
     yer,trm=final_term(doctor)
@@ -43,8 +43,12 @@ def subject(user , path='/doctor/subjects/'):
         subjectss=RegisterSubject.objects.filter(subjects=subject.subject,term=str(trm),year=yer ).count()
         # for subjec in subject.subject.Requirement.all():
         #     subjectss=subjectss+str(subjec.name)+"<br>"
-        url='<a href="'+path+str(subject.subject.pk)+'"><h4>'+subject.subject.name+'</h4></a>'
-        tabl.append( [ [url,""],[assistants,""],[lab_Assistancs,""],[subjectss,""] ] )
+        if path:
+            url1='<a href="details/'+str(subject.subject.pk)+'"><h4>'+str(subject.subject.name)+'</h4></a>'
+        else:
+            url1='<h3>'+subject.subject.name+'</h3>'
+        url='<a href="'+str(subject.subject.pk)+'"><h4>'+str(subjectss)+'</h4></a>'
+        tabl.append( [ [url1,""],[assistants,""],[lab_Assistancs,""],[url,""] ] )
     return tabl
 
 
@@ -180,33 +184,35 @@ def deleteclums(request,pk,check):
     students=RegisterSubject.objects.filter(current_D=doc,subjects=pk,term=str(trm),year=yer)
     rows=[]
     for student in students:
-        try:
-            DG=Degree.objects.get(subject=student,student=student.students)
-            lec=LectureDegree.objects.get(lecture=DG)
-            for clm in lec.degr.all():
-                try:
-                    if check:
-                        if str(clm.name )== str(request.POST.get(clm.name) ):
-                            sav=lec.degr.get(name="Total_lec")
-                            sav.deg=sav.deg-clm.deg
-                            sav.save(update_fields=['deg'])
-                            sav=lec.degr.get(name="Total")
-                            sav.deg=sav.deg-clm.deg
-                            sav.save(update_fields=['deg'])
-                            clm.delete()
-                    else:
-                        #lec.degr.remove(clm)
+        DG=Degree.objects.get(subject=student,student=student.students)
+        lec=LectureDegree.objects.get(lecture=DG)
+        for clm in lec.degr.all():
+            try:
+                if check:
+                    if str(clm.name )== str(request.POST.get(clm.name) ):
+                        sav=lec.degr.get(name="Total_lec")
+                        sav.deg=sav.deg-clm.deg
+                        sav.save(update_fields=['deg'])
+                        sav=lec.degr.get(name="Total")
+                        sav.deg=sav.deg-clm.deg
+                        sav.save(update_fields=['deg'])
                         clm.delete()
-                except:
-                    pass
-            if not check:
+                else:
+                    #lec.degr.remove(clm)
+                    clm.delete()
+            except:
+                pass
+        if not check:
+            if student.current_L.count():
                 clum1=DEG.objects.create(name="Total",deg=0,full=50)
-                clum2=DEG.objects.create(name="midterm",deg=0,full=20)
                 clum3=DEG.objects.create(name="Practical",deg=0,full=10)
-                clum4=DEG.objects.create(name="Total_lec",deg=0,full=20)
-                lec.degr.add(clum1,clum2,clum3,clum4)
-        except:
-            pass
+                lec.degr.add(clum1,clum3)
+            else:
+                clum1=DEG.objects.create(name="Total",deg=0,full=40)
+                lec.degr.add(clum1)
+            clum2=DEG.objects.create(name="midterm",deg=0,full=20)
+            clum4=DEG.objects.create(name="Total_lec",deg=0,full=20)
+            lec.degr.add(clum2,clum4)
 
 
 

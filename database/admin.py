@@ -19,11 +19,16 @@ def make(modeladmin, request, queryset):
         register.save()
         degree=Degree.objects.create(subject=register,student=register.students,midterm=0,final=0,total=0)
         lec=LectureDegree.objects.create(lecture=degree,lab=0,total=0)
-        clum1=DEG.objects.create(name="Total",deg=0,full=50)
+        if register.current_L.count():
+            clum1=DEG.objects.create(name="Total",deg=0,full=50)
+            clum3=DEG.objects.create(name="Practical",deg=0,full=10)
+            lec.degr.add(clum1,clum3)
+        else:
+            clum1=DEG.objects.create(name="Total",deg=0,full=40)
+            lec.degr.add(clum1)
         clum2=DEG.objects.create(name="midterm",deg=0,full=20)
-        clum3=DEG.objects.create(name="Practical",deg=0,full=10)
         clum4=DEG.objects.create(name="Total_lec",deg=0,full=20)
-        lec.degr.add(clum1,clum2,clum3,clum4)
+        lec.degr.add(clum2,clum4)
         SectionDegree.objects.create(section=degree,total=0)
         LABDegree.objects.create(LAB=degree,total=0)
 make.short_description = "make register"

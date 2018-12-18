@@ -341,7 +341,7 @@ class Absence(models.Model):
     name=models.PositiveIntegerField(blank=True)
     check=models.BooleanField(blank=True)
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 class LectureDegree (models.Model):

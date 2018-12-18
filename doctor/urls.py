@@ -21,6 +21,7 @@ urlpatterns = [
     path('tbl/', views.tbl, name='tbl'),
     path('subjects/', views.subjects, name='subjects'),
     path('subjects/<int:pk>/', views.students, name='students'),
+    path('subjects/details/<int:pk>/', views.details, name='details'),
     path('results/<int:pk>/', views.dgree, name='dgree'),
     path('addclm/<int:pk>/', views.AddClm, name='addclm'),
     path('absence/<int:pk>/', views.Absences, name='absence'),
