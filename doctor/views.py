@@ -70,12 +70,11 @@ def dgree(request,pk):#               دي انا سايبها لبعدين لا
         elif request.POST.get("action")=="مسح المحدد":
             deleteclums(request,pk,True)
         elif request.POST.get("action")=="اضافة عمود":
-            print("ok")
-            print("ok")
-            print("ok")
-            print("ok")
-            print("ok")
             return redirect('doctor:addclm',pk=pk)
+        elif request.POST.get("action")=="تعديل":
+            titles,rows=Getclums(request.user,pk,1)
+            return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html"})
+
         else:
             deleteclums(request,pk,False)
         return redirect('doctor:dgree', pk=pk)

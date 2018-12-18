@@ -331,12 +331,17 @@ class Degree(models.Model):
 class DEG(models.Model):
     name=models.CharField(max_length=100)#,choices=NameDeg)
     deg=models.PositiveIntegerField(blank=True)
+    full=models.PositiveIntegerField(blank=True)
+    def __str__(self):
+        return self.name
 
 
 ############################################################################################################################
 class Absence(models.Model):
     name=models.PositiveIntegerField(blank=True)
     check=models.BooleanField(blank=True)
+    def __str__(self):
+        return self.name
 
 
 class LectureDegree (models.Model):
