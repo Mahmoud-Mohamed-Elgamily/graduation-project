@@ -135,6 +135,10 @@ def Absences(request,pk):#               دي انا سايبها لبعدين �
             deleteAbsence(request.user,pk,True)
         elif request.POST.get("action")=="اضافة عمود":
             return redirect('doctor:addabsence',pk=pk)
+        elif request.POST.get("action")== "تعديل" :
+            titles,rows=GetAbsence(request.user,pk,0)
+            return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html"})
+
         else:
             deleteAbsence(request.user,pk,False)
         return redirect('doctor:absence', pk=pk)

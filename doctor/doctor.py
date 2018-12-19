@@ -119,7 +119,7 @@ def postclums(request,pk):
             elif clm.name == "Practical" or clm.name == "midterm" :
                 total=total+clm.deg
             clm.save(update_fields=['deg'])
-            
+       
         sav=lec.degr.get(name="Total_lec")
         sav.deg=total_lec
         sav.save(update_fields=['deg'])
@@ -170,6 +170,10 @@ def Getclums(user,pk,dis=0):
                 danger='class="btn btn-danger"'
             if clm.name == "Total_lec" or clm.name == "Total":
                 index.append([str(clm.deg),danger])
+            elif clm.name == "Absence":
+                clm.deg=((lec.absence_degree*clm.full)/lec.absence_total)
+                clm.save(update_fields=['deg'])
+                index.append([int(clm.deg),""])
             else:
                 index.append(['<input size="1" type="text" name="'+str(clm.pk)+'" value="'+str(clm.deg)+'" '+disabled+'>',danger])
         rows.append(index)
@@ -213,6 +217,7 @@ def deleteclums(request,pk,check):
             clum2=DEG.objects.create(name="midterm",deg=0,full=20)
             clum4=DEG.objects.create(name="Total_lec",deg=0,full=20)
             lec.degr.add(clum2,clum4)
+        
 
 
 
@@ -225,43 +230,45 @@ def addAbsence(user,cl,pk):
     yer,trm=final_term(Table.objects.filter(doctor=doc))
     students=RegisterSubject.objects.filter(current_D=doc,subjects=pk,term=str(trm),year=yer)
     titles=[]         
-    for i in range(int(cl)):
-        for student in students:
+    for student in students:
+        for i in range(int(cl)):
             DG=Degree.objects.get(subject=student,student=student.students)
             lec=LectureDegree.objects.get(lecture=DG)
             clum=Absence.objects.create(name=i+1,check=False)
             lec.absence.add(clum)
+        lec.absence_total=int(cl)
+        lec.save(update_fields=['absence_total'])
             #lec.save()
 
 
 ##########################################################################################################
 
 
-def GetAbsence(user,pk):
+def GetAbsence(user,pk,dis=0):
     doc=Doctors.objects.get(user=user)
     yer,trm=final_term(Table.objects.filter(doctor=doc))
     students=RegisterSubject.objects.filter(current_D=doc,subjects=pk,term=str(trm),year=yer)
     rows=[]
     title=[]
     for student in students:
-        try:
-            DG=Degree.objects.get(subject=student,student=student.students)
-            lec=LectureDegree.objects.get(lecture=DG)
-            title=[["الاسم",]]
-            index=[[student.students.student.name,""]]
-            for clm in lec.absence.all():
-                try:
-                    title.append([clm.name,""])
-                    check=""
-                    if clm.check:
-                        check="checked"
-                    index.append(['<input type="checkbox" name="'+str(clm.pk)+'" value="'+str(1)+'"'+check+'>',""])
-                except:
-                    pass
-        except:
-            pass
-        else:
-            rows.append(index)
+        DG=Degree.objects.get(subject=student,student=student.students)
+        lec=LectureDegree.objects.get(lecture=DG)
+        title=[["الاسم",]]
+        index=[[student.students.student.name,""]]
+        for clm in lec.absence.all():
+            title.append([clm.name,""])
+            disabled=""
+            check=""
+            if clm.check:
+                check="checked"
+                if dis:
+                    disabled="disabled"
+            index.append(['<input type="checkbox" name="'+str(clm.pk)+'" value="'+str(1)+'"'+check+' '+disabled+'>',""])
+            
+
+        index.append([lec.absence_degree,""])
+        rows.append(index)
+    title.append(["total",""])
     return title,rows
 
 
@@ -276,14 +283,18 @@ def postAbsence(request,pk):
     for student in students:
         DG=Degree.objects.get(subject=student,student=student.students)
         lec=LectureDegree.objects.get(lecture=DG)
+        total=0
         for clm in lec.absence.all():
             #try:
             if request.POST.get(str(clm.pk ) ):
                  clm.check=True
+                 total=total+1
                  clm.save(update_fields=['check'])
             else:
                 clm.check=False
                 clm.save(update_fields=['check'])
+        lec.absence_degree=total
+        lec.save(update_fields=['absence_degree'])
             #except:
                 #pass
 
@@ -307,3 +318,5 @@ def deleteAbsence(user,pk,check):
             else:
                 #lec.absence.remove(clm)
                 clm.delete()
+        lec.absence_degree=0
+        lec.save(update_fields=['absence_degree'])

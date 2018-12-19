@@ -348,6 +348,8 @@ class LectureDegree (models.Model):
     # Relations
     degr=models.ManyToManyField(DEG,blank=True)
     absence=models.ManyToManyField(Absence,blank=True)
+    absence_degree=models.PositiveIntegerField(blank=True)
+    absence_total=models.PositiveIntegerField(blank=True)
     lecture=models.OneToOneField(Degree,on_delete=models.CASCADE)
     lab=models.PositiveIntegerField(blank=True)
     # Variables
