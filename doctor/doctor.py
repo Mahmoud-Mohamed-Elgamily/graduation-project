@@ -1,4 +1,5 @@
 from database.models import *
+from itertools import islice
 
 def final_term(doctor):
     big_year=0
@@ -229,16 +230,70 @@ def addAbsence(user,cl,pk):
     doc=Doctors.objects.get(user=user)
     yer,trm=final_term(Table.objects.filter(doctor=doc))
     students=RegisterSubject.objects.filter(current_D=doc,subjects=pk,term=str(trm),year=yer)
-    titles=[]         
-    for student in students:
+    index=[]
+    rang=students.count()  
+    for count in range(rang):
         for i in range(int(cl)):
-            DG=Degree.objects.get(subject=student,student=student.students)
-            lec=LectureDegree.objects.get(lecture=DG)
-            clum=Absence.objects.create(name=i+1,check=False)
-            lec.absence.add(clum)
+            index.append(Absence(name=i+1,check=False))
+    #if rang*int(cl) >100
+    batch_size = len(index)
+    batch = list(islice(index, batch_size))
+    Absence.objects.bulk_create(batch, batch_size)  
+    
+    firist_pk=(Absence.objects.latest('id').pk-(rang*int(cl) ) )
+    for student in students:
+        DG=Degree.objects.get(subject=student,student=student.students)
+        lec=LectureDegree.objects.get(lecture=DG)
+        for i in range(int(cl)):
+            lec.absence.add(firist_pk)
+            firist_pk=firist_pk+1
         lec.absence_total=int(cl)
         lec.save(update_fields=['absence_total'])
-            #lec.save()
+#     batch_size = 100
+# while True:
+#     batch = list(islice(total, batch_size))
+#     if not batch:
+#         break
+#     LectureDegree.objects.bulk_create(batch, batch_size)
+
+
+
+#     for student in students:
+#         for i in range(int(cl)):
+#             DG=Degree.objects.get(subject=student,student=student.students)
+#             clum=Absence.objects.create(name=i+1,check=False)
+#             lec=LectureDegree.objects.get(lecture=DG)
+#             lec.absence.add(clum)
+
+#         lec.absence_total=int(cl)
+#         total.append(lec)
+#     batch_size = 100
+# while True:
+#     batch = list(islice(total, batch_size))
+#     if not batch:
+#         break
+#     LectureDegree.objects.bulk_create(batch, batch_size)
+
+    # for student in students:
+    #     for i in range(int(cl)):
+    #         DG=Degree.objects.get(subject=student,student=student.students)
+    #         lec=LectureDegree.objects.get(lecture=DG)
+    #         clum=Absence.objects.create(name=i+1,check=False)
+    #         lec.absence.add(clum)
+    #     lec.absence_total=int(cl)
+    #     lec.save(update_fields=['absence_total'])
+    #         #lec.save()
+
+
+
+
+# batch_size = 100
+# objs = (Entry(headline='Test %s' % i) for i in range(1000))
+# while True:
+#     batch = list(islice(objs, batch_size))
+#     if not batch:
+#         break
+#     Entry.objects.bulk_create(batch, batch_size)
 
 
 ##########################################################################################################

@@ -82,11 +82,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'UCMS',
         'USER': 'postgres',
-        'PASSWORD': 'z2131996eus',
+        'PASSWORD': '0573631522',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
+
 
 
 # Password validation

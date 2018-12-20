@@ -342,7 +342,7 @@ class Absence(models.Model):
     check=models.BooleanField(blank=True)
     def __str__(self):
         return str(self.name)
-
+######################################################################################################################
 
 class LectureDegree (models.Model):
     # Relations

@@ -18,7 +18,7 @@ def make(modeladmin, request, queryset):
         register.term=studs.term
         register.save()
         degree=Degree.objects.create(subject=register,student=register.students,midterm=0,final=0,total=0)
-        lec=LectureDegree.objects.create(lecture=degree,lab=0,total=0)
+        lec=LectureDegree.objects.create(lecture=degree,lab=0,total=0,absence_degree=0,absence_total=0)
         if register.current_L.count():
             clum1=DEG.objects.create(name="Total",deg=0,full=50)
             clum3=DEG.objects.create(name="Practical",deg=0,full=10)
