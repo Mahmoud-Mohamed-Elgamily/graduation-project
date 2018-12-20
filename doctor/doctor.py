@@ -28,11 +28,13 @@ def table(user):
 
 
 #######################################################################################################################################
-def subject(user , path=1):
-    doc=Doctors.objects.get(user=user)
-    doctor=Table.objects.filter(doctor=doc)
-    yer,trm=final_term(doctor)
-    subjects=Table.objects.filter( doctor=doc,nameAction='lec',term=str(trm),year=yer )
+def subject(user , subjects=0,yer=0,trm=0):
+    if not subjects :
+        doc=Doctors.objects.get(user=user)
+        doctor=Table.objects.filter(doctor=doc)
+        yer,trm=final_term(doctor)
+        subjects=Table.objects.filter( doctor=doc,nameAction='lec',term=str(trm),year=yer )
+        return subjects,yer,trm
     tabl=[]
     for subject in subjects :
         assistants=""
@@ -44,10 +46,9 @@ def subject(user , path=1):
         subjectss=RegisterSubject.objects.filter(subjects=subject.subject,term=str(trm),year=yer ).count()
         # for subjec in subject.subject.Requirement.all():
         #     subjectss=subjectss+str(subjec.name)+"<br>"
-        if path:
-            url1='<a href="details/'+str(subject.subject.pk)+'"><h4>'+str(subject.subject.name)+'</h4></a>'
-        else:
-            url1='<h3>'+subject.subject.name+'</h3>'
+        
+        url1='<a href="details/'+str(subject.subject.pk)+'"><h4>'+str(subject.subject.name)+'</h4></a>'
+        
         url='<a href="'+str(subject.subject.pk)+'"><h4>'+str(subjectss)+'</h4></a>'
         tabl.append( [ [url1,""],[assistants,""],[lab_Assistancs,""],[url,""] ] )
     return tabl

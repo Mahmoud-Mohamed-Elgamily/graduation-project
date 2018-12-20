@@ -30,12 +30,26 @@
                 <li class="nav-item {% if table == 'true' %}active{% endif %}">
                     <a class="nav-link" href="{% url 'doctor:tbl' %}"> الجدول الشخصي</a>
                 </li>
-                <li class="nav-item {% if results == 'true' %}active{% endif %}">
-                    <a class="nav-link" href="{% url 'doctor:results' %}">إدخال الدرجات</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    إدخال الدرجات
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        {% for subject in subjects %}
+                            <a class="dropdown-item" href="{% url 'doctor:dgree' pk=subject.subject.pk %}">{{subject.subject.name}}</a>
+                        {% endfor %}
+                    </div>
                 </li>
-                <li class="nav-item {% if absence == 'true' %}active{% endif %}">
-                    <a class="nav-link" href="{% url 'doctor:absence' %}">غياب الطلاب</a>
-                </li>
+                <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        غياب الطلاب
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            {% for subject in subjects %}
+                                <a class="dropdown-item" href="{% url 'doctor:absence' subject.subject.pk %}">{{subject.subject.name}}</a>
+                            {% endfor %}
+                        </div>
+                    </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     تحكم المستخدم

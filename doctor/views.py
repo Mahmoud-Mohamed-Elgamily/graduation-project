@@ -21,11 +21,12 @@ def tbl(request):
         Four="الرابعة"
         interval=[ [ [one,""],[","],[","],[","],[","],[","],[","]],[[two,""],[","],[","],[","],[","],[","],[","]],[[three,""],[","],[","],[","],[","],[","],[","]],[ [Four,""],[","],[","],[","],[","],[","],[","]]]
         tabl=table(request.user)
-        for subject in tabl:
-            lec=tabl[subject]['lec']
-            interval[int(lec[0])-1][int(lec[1])]=[ "محاضرة "+str(subject)+"<br>"+lec[3]+"<br>"+'قاعة '+lec[2] ,"class='alert alert-success'" ]
+        subjects,yer,trm=subject(request.user)
+        for subject1 in tabl:
+            lec=tabl[subject1]['lec']
+            interval[int(lec[0])-1][int(lec[1])]=[ "محاضرة "+str(subject1)+"<br>"+lec[3]+"<br>"+'قاعة '+lec[2] ,"class='alert alert-success'" ]
 
-        return render(request,"table.html",{"titles":titles,"rows":interval,'table': 'true',"extend": "basic.html"})
+        return render(request,"table.html",{"titles":titles,"rows":interval,'table': 'true',"extend": "basic.html","subjects":subjects})
 
 
 
@@ -41,9 +42,9 @@ def subjects(request):
         three="معدين المعمل"
         Four="عدد طلاب المادة"
         titles=[ [one,""] , [two,""] , [three,""] , [Four,""] ]
-
-        rows=subject(request.user,1)
-        return render(request,"table.html",{"titles":titles,"rows":rows,'subject': 'true',"extend": "basic.html"})
+        subjects,yer,trm=subject(request.user)
+        rows=subject(request.user,subjects,yer,trm)
+        return render(request,"table.html",{"titles":titles,"rows":rows,'subject': 'true',"extend": "basic.html","subjects":subjects})
 
 #####################################################################################################################
 def details(request,pk):
@@ -51,15 +52,17 @@ def details(request,pk):
     titles=[ ['<h1>'+subject_pk.name+'</h1>','colspan="2"'] ]
     
     rows=[ [ ["Specialization",""] ,[subject_pk.get_Specialization_display(),'']  ],[ ["department",""] ,[subject_pk.get_department_display(),''] ],[ ["no_hours",""] ,[subject_pk.no_hours,''] ],[ ["Optional",""] ,[subject_pk.get_Optional_display(),''] ],[ ["level",""] ,[subject_pk.get_level_display(),''] ]]
-    return render(request,"table.html",{"titles":titles,"rows":rows,'subject': 'true',"extend": "basic.html"})
+    subjects,yer,trm=subject(request.user)
+    return render(request,"table.html",{"titles":titles,"rows":rows,'subject': 'true',"extend": "basic.html","subjects":subjects})
 
 ########################################################################
 @login_required
 def students(request,pk):#               دي انا سايبها لبعدين لان السكيرتي هنا مش قد كده
     if request.method =="GET":
+        subjects,yer,trm=subject(request.user)
         rows,name,reject=StudentSubject(pk)
         titles=[ [name,""] ]
-        return render(request,"table.html",{"titles":titles,"rows":rows,"extend": "basic.html"})
+        return render(request,"table.html",{"titles":titles,"rows":rows,"extend": "basic.html","subjects":subjects})
 
 
 ###########################################################################
@@ -68,7 +71,8 @@ def students(request,pk):#               دي انا سايبها لبعدين �
 def dgree(request,pk):#               دي انا سايبها لبعدين لان السكيرتي هنا مش قد كده
     if request.method =="GET":
         titles,rows=Getclums(request.user,pk)
-        return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html"})
+        subjects,yer,trm=subject(request.user)
+        return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html","subjects":subjects})
 
     if request.method =="POST":
         if request.POST.get("action")=="تسجيل":
@@ -79,7 +83,7 @@ def dgree(request,pk):#               دي انا سايبها لبعدين لا
             return redirect('doctor:addclm',pk=pk)
         elif request.POST.get("action")=="تعديل":
             titles,rows=Getclums(request.user,pk,1)
-            return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html"})
+            return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html","subjects":subjects})
 
         else:
             deleteclums(request,pk,False)
@@ -93,7 +97,8 @@ def dgree(request,pk):#               دي انا سايبها لبعدين لا
 def AddClm(request,pk):#               دي انا سايبها لبعدين لان السكيرتي هنا مش قد كده
     if request.method =="GET":
         hidden=pk
-        return render(request,"form.html",{"hidden":hidden,"extend": "basic.html"})
+        subjects,yer,trm=subject(request.user)
+        return render(request,"form.html",{"hidden":hidden,"extend": "basic.html","subjects":subjects})
 
 
     if request.method =="POST":
@@ -109,7 +114,8 @@ def AddClm(request,pk):#               دي انا سايبها لبعدين ل�
 def addAbsences(request,pk):#               دي انا سايبها لبعدين لان السكيرتي هنا مش قد كده
     if request.method =="GET":
         hidden=pk
-        return render(request,"absence.html",{"hidden":hidden,"extend": "basic.html"})
+        subjects,yer,trm=subject(request.user)
+        return render(request,"absence.html",{"hidden":hidden,"extend": "basic.html","subjects":subjects})
 
 
     if request.method =="POST":
@@ -126,7 +132,8 @@ def addAbsences(request,pk):#               دي انا سايبها لبعدي�
 def Absences(request,pk):#               دي انا سايبها لبعدين لان السكيرتي هنا مش قد كده
     if request.method =="GET":
         titles,rows=GetAbsence(request.user,pk)
-        return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html"})
+        subjects,yer,trm=subject(request.user)
+        return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html","subjects":subjects})
 
     if request.method =="POST":
         if request.POST.get("action")=="تسجيل":
@@ -137,7 +144,7 @@ def Absences(request,pk):#               دي انا سايبها لبعدين �
             return redirect('doctor:addabsence',pk=pk)
         elif request.POST.get("action")== "تعديل" :
             titles,rows=GetAbsence(request.user,pk,0)
-            return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html"})
+            return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html","subjects":subjects})
 
         else:
             deleteAbsence(request.user,pk,False)
@@ -152,29 +159,6 @@ def Absences(request,pk):#               دي انا سايبها لبعدين �
 def student_data(request):
     return HttpResponse("not set yet")
 
-
-def results(request):
-    if request.method =="GET":
-        one="اسم المادة"
-        two="المعيدين"
-        three="معيدين المعمل"
-        Four="عدد طلاب المادة"
-        titles=[ [one,""] , [two,""] , [three,""] , [Four,""] ]
-
-        rows=subject(request.user , '')
-        return render(request,"table.html",{"titles":titles,"rows":rows,'results': 'true',"extend": "basic.html"})
-
-
-def absence(request):
-    if request.method =="GET":
-        one="اسم المادة"
-        two="المعيدين"
-        three="معيدين المعمل"
-        Four="عدد طلاب المادة"
-        titles=[ [one,""] , [two,""] , [three,""] , [Four,""] ]
-
-        rows=subject(request.user , '')
-        return render(request,"table.html",{"titles":titles,"rows":rows,'absence': 'true',"extend": "basic.html"})
 
 
 def monitor(request):

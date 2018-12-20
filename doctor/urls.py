@@ -28,8 +28,7 @@ urlpatterns = [
     path('addabsence/<int:pk>/', views.addAbsences, name='addabsence'),
 #
     path('stdata/', views.student_data, name='student_data'),
-    path('results/', views.results, name='results'),
-    path('absence/', views.absence, name='absence'),
+    
     path('monitor/', views.monitor, name='monitor'),
     path('profile/', views.profile, name='profile'),
     path('mail/', views.mail, name='mail'),
