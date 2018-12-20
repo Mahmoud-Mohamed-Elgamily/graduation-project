@@ -141,7 +141,7 @@ def Getclums(user,pk,dis=0):
         lec=LectureDegree.objects.get(lecture=DG)
         title=[["الاسم",]]
         index=[[student.students.student.name,""]]
-        for clm in lec.degr.all():
+        for clm in lec.degr.order_by('-pk').reverse():
             if dis:
                 disabled=""
             else:
@@ -310,7 +310,7 @@ def GetAbsence(user,pk,dis=0):
         lec=LectureDegree.objects.get(lecture=DG)
         title=[["الاسم",]]
         index=[[student.students.student.name,""]]
-        for clm in lec.absence.all():
+        for clm in lec.absence.order_by('-pk').reverse():
             title.append([clm.name,""])
             disabled=""
             check=""
