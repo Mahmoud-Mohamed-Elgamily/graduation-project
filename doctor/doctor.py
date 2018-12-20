@@ -152,7 +152,7 @@ def Getclums(user,pk,dis=0):
                 titl=clm.name+" <br> "+str(clm.full)
                 if clm.name == "Total_lec":
                     total_lec=0
-                    for clms in lec.degr.all():
+                    for clms in lec.degr.order_by('-pk').reverse():
                         if clms.name != "Total_lec" and clms.name != "Practical" and clms.name != "midterm" and clms.name != "Total":
                             total_lec=total_lec+clms.full
                     if total_lec >20:
