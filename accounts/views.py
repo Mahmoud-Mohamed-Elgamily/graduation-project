@@ -48,7 +48,7 @@ def user_login(request):
                 if 'next' in request.POST:
                     return redirect(request.POST.get('next'))
                 else:
-                    return redirect('database:home')
+                    return redirect('doctor:home')
             else:
                 return HttpResponse("account not active")
         else:

@@ -18,6 +18,7 @@ from django.urls import path
 from . import views
 app_name='doctor'
 urlpatterns = [
+    path('home/', views.home, name='home'),
     path('tbl/', views.tbl, name='tbl'),
     path('subjects/', views.subjects, name='subjects'),
     path('subjects/<int:pk>/', views.students, name='students'),

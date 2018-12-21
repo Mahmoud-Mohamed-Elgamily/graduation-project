@@ -3,7 +3,12 @@ from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import AbstractUser
 
+
+class User(AbstractUser):
+    is_student = models.BooleanField(default=False)
+    is_teacher = models.BooleanField(default=False)
 
 User=get_user_model()
 # Create your models here.

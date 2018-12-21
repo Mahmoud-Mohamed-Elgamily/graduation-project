@@ -155,7 +155,15 @@ def Absences(request,pk):#               دي انا سايبها لبعدين �
 ######################################################################################################################
 
 
+@login_required
+def home(request):
+    current_user = Doctors.objects.get(user=request.user)
+    context={
+        'name':current_user.name,
+    }
+    return render(request,"body.html",context)
 
+    
 def student_data(request):
     return HttpResponse("not set yet")
 
