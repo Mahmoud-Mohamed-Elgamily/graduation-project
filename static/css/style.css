@@ -1,5 +1,7 @@
+html,
 body {
   height: 100%;
+  position: relative;
 }
 
 a.nav-link {
@@ -48,8 +50,12 @@ nav.navbar div li:hover {
 }
 
 div.body {
-  height: 100%;
-  margin-top: 70px;
+  min-height: 100vh;
+  overflow: hidden;
+  display: block;
+  position: relative;
+  padding-bottom: 40px;
+  padding-top: 70px;
   direction: rtl;
   text-align: right;
 }
@@ -66,6 +72,21 @@ div.body div.content {
   text-align: right;
 }
 
+footer {
+  background: #2dcc70;
+  text-align: center;
+  color: white;
+  height: 50px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+footer h5 {
+  line-height: 50px;
+  margin-bottom: 0;
+}
+
 div {
   text-align: right;
 }
@@ -79,22 +100,6 @@ aside {
 
 aside li.nav-item a.disabled {
   color: #aaa;
-}
-
-footer {
-  background: #2dcc70;
-  text-align: center;
-  color: white;
-  height: 50px;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  display: block;
-}
-
-footer h5 {
-  line-height: 50px;
-  margin-bottom: 0;
 }
 
 .responstable {
@@ -215,21 +220,15 @@ footer#loginfooter {
 }
 
 @media only screen and (max-width: 600px) {
-  nav.navbar {
-    direction: rtl;
-  }
-  nav.navbar div ul.navbar-nav {
+  div ul.navbar-nav {
     padding: 0;
   }
-  nav.navbar div ul.navbar-nav li {
-    text-align: center;
+  div ul.navbar-nav li {
+    text-align: center !important;
     width: 80%;
     margin: 0 auto;
     margin-bottom: 5px;
-    border-radius: 0;
-  }
-  footer {
-    position: relative;
+    border-radius: 0 !important;
   }
 }
 /*# sourceMappingURL=style.css.map */
