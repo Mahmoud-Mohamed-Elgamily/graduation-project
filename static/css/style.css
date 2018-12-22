@@ -72,7 +72,7 @@ div.body div.content {
   text-align: right;
 }
 
-div.body footer {
+footer {
   background: #2dcc70;
   text-align: center;
   color: white;
@@ -82,7 +82,7 @@ div.body footer {
   bottom: 0;
 }
 
-div.body footer h5 {
+footer h5 {
   line-height: 50px;
   margin-bottom: 0;
 }

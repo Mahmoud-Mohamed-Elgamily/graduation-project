@@ -72,22 +72,24 @@ div.body {
     text-align: right;
   }
   
-  footer{
-    background: $green;
-    text-align: center;
-    color: white;
-    height: 50px;
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-
-    h5{
-        line-height: 50px;
-        margin-bottom: 0;
-    }
-  }
-
+  
 }
+footer{
+  background: $green;
+  text-align: center;
+  color: white;
+  height: 50px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+
+  h5{
+      line-height: 50px;
+      margin-bottom: 0;
+  }
+}
+
+
 div{
     text-align: right;
 }
