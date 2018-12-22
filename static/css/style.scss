@@ -2,8 +2,10 @@ $green : #2dcc70;
 $gray: #69686f;
 $hover :#2dcc70;
 
-body{
-  height: 100%;
+html,
+body {
+ height: 100%;
+ position: relative;
 }
 
 a.nav-link{
@@ -16,7 +18,7 @@ a.nav-link{
 nav.navbar {
     direction: rtl;
     background-color: #3e3e46 !important;
-
+    
     div a.navbar-brand , div ul li a.nav-link{
         color: white !important;
     }
@@ -53,8 +55,12 @@ nav.navbar {
 
 
 div.body {
-  height: 100%;
-  margin-top: 70px;
+  min-height: 100vh;
+  overflow: hidden;
+  display: block;
+  position: relative;
+  padding-bottom: 40px;
+  padding-top: 70px;
   direction: rtl;
   text-align: right;
   div.header{
@@ -65,6 +71,22 @@ div.body {
     direction: rtl;
     text-align: right;
   }
+  
+  footer{
+    background: $green;
+    text-align: center;
+    color: white;
+    height: 50px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+
+    h5{
+        line-height: 50px;
+        margin-bottom: 0;
+    }
+  }
+
 }
 div{
     text-align: right;
@@ -81,22 +103,6 @@ aside{
 }
 
 
-
-footer{
-    background: $green;
-    text-align: center;
-    color: white;
-    height: 50px;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    display: block;
-
-    h5{
-        line-height: 50px;
-        margin-bottom: 0;
-    }
-}
 
 
 // Default options for table style
@@ -280,20 +286,14 @@ footer#loginfooter{
 // media queries 
 
 @media only screen and (max-width:600px){
-  nav.navbar {
-      direction: rtl;
-      div ul.navbar-nav{
-      padding:0;
-      li{
-        text-align: center;
-        width: 80%;
-        margin: 0 auto;
-        margin-bottom: 5px;
-        border-radius: 0;
-      }
-    } 
-  }
-  footer{
-    position: relative;
+  div ul.navbar-nav {
+    padding:0;
+    li{
+      text-align: center !important;
+      width: 80%;
+      margin: 0 auto;
+      margin-bottom: 5px;
+      border-radius: 0 !important;
+    }
   }
 }
