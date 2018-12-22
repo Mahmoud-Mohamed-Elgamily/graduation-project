@@ -159,7 +159,7 @@ def Absences(request,pk):#               دي انا سايبها لبعدين �
 def home(request):
     current_user = Doctors.objects.get(user=request.user)
     context={
-        'name':current_user.name,
+        'name':'د/ '+current_user.name,
     }
     return render(request,"body.html",context)
 

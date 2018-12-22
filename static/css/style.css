@@ -1,3 +1,7 @@
+body {
+  height: 100%;
+}
+
 a.nav-link {
   color: white;
 }
@@ -43,34 +47,37 @@ nav.navbar div li:hover {
   transition: border-radius .3s;
 }
 
-div.row {
-  margin-top: 56px;
+div.body {
+  height: 100%;
+  margin-top: 70px;
+  direction: rtl;
+  text-align: right;
 }
 
-div.row div.body {
-  padding-right: 0;
-  padding-top: 15px;
-}
-
-div.row div.body div.header {
+div.body div.header {
   background: #69686f0d;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
 }
 
-div.row div {
+div.body div.content {
+  direction: rtl;
   text-align: right;
 }
 
-div.row aside {
+div {
+  text-align: right;
+}
+
+aside {
   text-align: right;
   padding: 25px 10px;
   height: -webkit-fill-available;
   background: #69686f;
 }
 
-div.row aside li.nav-item a.disabled {
+aside li.nav-item a.disabled {
   color: #aaa;
 }
 
@@ -79,6 +86,10 @@ footer {
   text-align: center;
   color: white;
   height: 50px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: block;
 }
 
 footer h5 {
@@ -201,5 +212,24 @@ footer#loginfooter {
   bottom: 0;
   right: 0;
   left: 0;
+}
+
+@media only screen and (max-width: 600px) {
+  nav.navbar {
+    direction: rtl;
+  }
+  nav.navbar div ul.navbar-nav {
+    padding: 0;
+  }
+  nav.navbar div ul.navbar-nav li {
+    text-align: center;
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 5px;
+    border-radius: 0;
+  }
+  footer {
+    position: relative;
+  }
 }
 /*# sourceMappingURL=style.css.map */
