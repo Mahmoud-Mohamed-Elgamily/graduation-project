@@ -11,21 +11,21 @@ from . import forms
 
 
 # Create your views here.
-def signup(request):
-    #CSRF_COOKIE_SECURE=True
+# def signup(request):
+#     #CSRF_COOKIE_SECURE=True
     
-    if request.method=='POST':
-        form=forms.UserCreateForm(request.POST)
-        print(form)
-        if form.is_valid():
-            user=form.save()
-            login(request,user)
-            return redirect('database:home')
-        else:
-            return render(request,"signup.html",{'form':form})
-    else:
-        form=forms.UserCreateForm()
-    return render(request,"signup.html")
+#     if request.method=='POST':
+#         form=forms.UserCreateForm(request.POST)
+#         print(form)
+#         if form.is_valid():
+#             user=form.save()
+#             login(request,user)
+#             # return redirect('database:home')
+#         else:
+#             return render(request,"signup.html",{'form':form})
+#     else:
+#         form=forms.UserCreateForm()
+#     return render(request,"signup.html")
 
 def user_login(request):
     print("request")
@@ -55,11 +55,3 @@ def user_login(request):
                 return render(request,'login.html',{'logerro':logerro})
     else:
         return render(request,'login.html',{'logerro':logerro})
-
-def logout_view(request):
-    logout(request)
-    return redirect('database:home')
-
-
-def home_page(request):
-    return HttpResponse('<h1> welcome to the home! </h1>')

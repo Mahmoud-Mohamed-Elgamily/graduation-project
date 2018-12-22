@@ -20,11 +20,7 @@ from django.conf.urls import url
 from accounts import views
 app_name='accounts'
 urlpatterns = [
-    path('signup/', views.signup, name='signup'),
+    # path('signup/', views.signup, name='signup'),
     path('login/', views.user_login, name='login'),
     #path('create/', views.artical_create, name='create'),
-    path('logout/', views.logout_view, name='logout'),
-    #url(r'(?P<slug>[\w-]+)/$',views.details),
-    path('home/', views.home_page, name='home'),
-
 ]
