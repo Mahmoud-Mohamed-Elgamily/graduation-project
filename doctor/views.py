@@ -83,6 +83,7 @@ def dgree(request,pk):#               دي انا سايبها لبعدين لا
             return redirect('doctor:addclm',pk=pk)
         elif request.POST.get("action")=="تعديل":
             titles,rows=Getclums(request.user,pk,1)
+            subjects,yer,trm=subject(request.user)
             return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html","subjects":subjects})
 
         else:

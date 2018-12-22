@@ -241,7 +241,7 @@ def addAbsence(user,cl,pk):
     batch = list(islice(index, batch_size))
     Absence.objects.bulk_create(batch, batch_size)  
     
-    firist_pk=(Absence.objects.latest('id').pk-(rang*int(cl) ) )
+    firist_pk=(Absence.objects.latest('id').pk-(rang*int(cl) ) )+1
     for student in students:
         DG=Degree.objects.get(subject=student,student=student.students)
         lec=LectureDegree.objects.get(lecture=DG)
