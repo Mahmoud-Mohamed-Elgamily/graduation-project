@@ -18,5 +18,6 @@ from django.urls import path
 from . import views
 app_name='student'
 urlpatterns = [
-    path('tbl/', views.tbl, name='tbl')
+    path('home/', views.home, name='home'),
+    path('tbl/', views.tbl, name='tbl'),
 ]

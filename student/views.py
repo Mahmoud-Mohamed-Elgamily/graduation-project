@@ -38,3 +38,11 @@ def tbl(request):
                 pass
 
         return render(request,"table.html",{"titles":titles,"rows":interval,"extend": "basic.html"})
+
+@login_required
+def home(request):
+    current_user = Students_user.objects.get(user=request.user)
+    context={
+        'name':current_user.name,
+    }
+    return render(request,"body.html",context)

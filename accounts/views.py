@@ -46,6 +46,8 @@ def user_login(request):
                 return redirect('doctor:home')
             elif user.is_authenticated and user.is_student:
                 return redirect('student:home')
+            elif user.is_authenticated and user.is_assistant:
+                return redirect('assistant:home')
             else:
                 print ("someone tried to login and failed!")
                 print("username: {} and password: {}".format(username,password))

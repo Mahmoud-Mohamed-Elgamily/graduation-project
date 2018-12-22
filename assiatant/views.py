@@ -26,3 +26,11 @@ def tbl(request):
             interval[int(lec[0])-1][int(lec[1])]=[ lec[4]+"<br>"+str(lec[5])+"<br>"+lec[3]+"<br>"+lec[2] ,"class='alert alert-success'" ]
 
         return render(request,"table.html",{"titles":titles,"rows":interval,"extend": "basic.html"})
+
+@login_required
+def home(request):
+    current_user = TeachingAssistant.objects.get(user=request.user)
+    context={
+        'name':'م/'+current_user.name,
+    }
+    return render(request,"body.html",context)
