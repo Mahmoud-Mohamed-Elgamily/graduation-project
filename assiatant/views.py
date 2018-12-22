@@ -23,7 +23,11 @@ def tbl(request):
         tabl=table(request.user.pk)
         for subject in tabl:
             lec=tabl[subject]['sec']
-            interval[int(lec[0])-1][int(lec[1])]=[ lec[4]+"<br>"+str(lec[5])+"<br>"+lec[3]+"<br>"+lec[2] ,"class='alert alert-success'" ]
+            if lec[4]=="section":
+                color="class='alert alert-info'"
+            else:
+                color="class='alert alert-warning'"
+            interval[int(lec[0])-1][int(lec[1])]=[ lec[4]+"<br>"+str(lec[5])+"<br>"+lec[3]+"<br>"+lec[2] ,color ]
 
         return render(request,"table.html",{"titles":titles,"rows":interval,"extend": "basic.html"})
 
