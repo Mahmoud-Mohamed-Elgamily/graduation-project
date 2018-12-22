@@ -104,7 +104,7 @@ def final_term(std,user):
 
 class Doctors(models.Model):
     # Relations
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    user = models.OneToOneField(User,on_delete=models.CASCADE, primary_key=True)
     # Variables
     department = models.CharField(max_length=100,choices=Departments)
     name = models.CharField(max_length=100,unique=True)
@@ -133,7 +133,7 @@ class DataDoctor(models.Model):
 
 class TeachingAssistant(models.Model):
     # Relations
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    user = models.OneToOneField(User,on_delete=models.CASCADE, primary_key=True)
     # Variables
     department = models.CharField(max_length=100,choices=Departments)
     name = models.CharField(max_length=100,unique=True)
@@ -166,7 +166,7 @@ class DataTeachingAssistant(models.Model):
 
 class Students_user(models.Model):
     # Relations
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    user = models.OneToOneField(User,on_delete=models.CASCADE, primary_key=True)
     # Variables
     name = models.CharField(max_length=100,unique=True)
 

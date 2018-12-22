@@ -37,28 +37,21 @@ def user_login(request):
         logout(request)
 
     if request.method =="POST":
-        print("request.GET")
-        print(request.POST)
-        username=request.POST.get('username')
-        password=request.POST.get('password')
-        user=authenticate(username=username,password=password)
-        if user:
-            if user.is_active:
-                login(request,user)
-                if 'next' in request.POST:
-                    return redirect(request.POST.get('next'))
-                else:
-                    return redirect('doctor:home')
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            if user.is_authenticated and user.is_teacher:
+                return redirect('doctor:home')
+            elif user.is_authenticated and user.is_student:
+                return redirect('student:home')
             else:
-                return HttpResponse("account not active")
-        else:
-            print ("someone tried to login and failed!")
-            print("username: {} and password: {}".format(username,password))
-            logerro=True
-            return render(request,'login.html',{'logerro':logerro})
+                print ("someone tried to login and failed!")
+                print("username: {} and password: {}".format(username,password))
+                logerro=True
+                return render(request,'login.html',{'logerro':logerro})
     else:
-        print("request.GET")
-        print(request.GET)
         return render(request,'login.html',{'logerro':logerro})
 
 def logout_view(request):
