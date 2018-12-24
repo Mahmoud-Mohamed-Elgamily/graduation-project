@@ -27,6 +27,41 @@ def table(user):
 
 
 
+
+
+
+
+##############################################################################################################################
+
+
+def depart_table(user):
+    doc=Doctors.objects.get(user=user)
+    subjects=RegisterSubject.objects.filter(department=doc.department)
+    yer,trm=final_term(subjects)
+    subjects=subjects=RegisterSubject.objects.filter(department=doc.department,term=str(trm),year=yer)
+    tabl={}
+    section={}
+    lecture={}
+    LAB={}
+    for sbjct in subjects :
+        lecs=Table.objects.filter(subject=sbjct.subjects,nameAction='lec',year=yer,term=trm)
+        for lec in lecs:
+            lecture.update( {lec.subject.name+"@"+lec.day+lec.interval:[ lec.subject.name,[lec.interval,lec.day,lec.location,lec.doctor.name]  ] })
+
+        secs=Table.objects.filter(subject=sbjct.subjects,nameAction='sec',year=yer,term=trm)
+        for sec in secs:
+            section.update( {sec.subject.name+"@"+sec.day+sec.interval:[ sec.subject.name,[sec.interval,sec.day,sec.location,sec.Assistant.name]  ] })
+        try:
+            labs=Table.objects.filter(subject=sbjct.subjects,nameAction='lab',year=yer,term=trm)
+        except:
+            pass
+        else:
+            for lab in labs:
+                LAB.update({lab.subject.name+"@"+lab.day+lab.interval: [ lab.subject.name,[lab.interval,lab.day,lab.location,lab.Assistant.name]  ] })
+    return [lecture,section,LAB]
+
+
+
 #######################################################################################################################################
 def subject(user , subjects=0,yer=0,trm=0):
     if not subjects :
@@ -156,7 +191,7 @@ def Getclums(user,pk,dis=0):
                     for clms in lec.degr.order_by('-pk').reverse():
                         if clms.name != "Total_lec" and clms.name != "Practical" and clms.name != "midterm" and clms.name != "Total":
                             total_lec=total_lec+clms.full
-                    if total_lec >20:
+                    if total_lec != 20 :
                         danger='style="background: red;color:black"'
                         titl=titl+" <br> not "+str(total_lec)
                     title.append([titl,danger])

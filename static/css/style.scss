@@ -24,6 +24,11 @@ nav.navbar {
     }
 
     div{
+      
+      ul.navbar-nav{
+        margin: 0 auto;
+        padding: 0;
+      }
 
       li{
         text-align: right;

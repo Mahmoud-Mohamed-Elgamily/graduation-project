@@ -1,6 +1,7 @@
 .vscode/settings.json
 UCMS/settings.py
 database/__pycache__/models.cpython-37.pyc
+doctor/__pycache__/views.cpython-37.pyc
 UCMS/__pycache__/__init__.cpython-37.pyc
 UCMS/__pycache__/settings.cpython-37.pyc
 UCMS/__pycache__/urls.cpython-37.pyc

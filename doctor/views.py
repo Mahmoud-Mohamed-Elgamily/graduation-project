@@ -27,7 +27,41 @@ def tbl(request):
             interval[int(lec[0])-1][int(lec[1])]=[ "محاضرة "+str(subject1)+"<br>"+lec[3]+"<br>"+'قاعة '+lec[2] ,"class='alert alert-success'" ]
 
         return render(request,"table.html",{"titles":titles,"rows":interval,'table': 'true',"extend": "basic.html","subjects":subjects})
+################################################################################################################################################################
+def depart_tbl(request):
+    if request.method =="GET":
+        one="الفترة/اليوم"
+        two="السبت"
+        three="الاحد"
+        Four="الاثنين"
+        five="الثلاثاء"
+        six="الاربعاء"
+        seven="الخميس"
+        titles=[ [one,""] , [two,""] , [three,""] , [Four,""] , [five,""] , [six,""] , [seven,""] ]
+        one="الاولي"
+        two="الثانية"
+        three="الثالثة"
+        Four="الرابعة"
+        interval=[ [ [one,""],[","],[","],[","],[","],[","],[","]],[[two,""],[","],[","],[","],[","],[","],[","]],[[three,""],[","],[","],[","],[","],[","],[","]],[ [Four,""],[","],[","],[","],[","],[","],[","]]]
+        tabl=depart_table(request.user.pk)
+        for lecs in tabl[0]:
+            lec=tabl[0][lecs][1]
+            interval[int(lec[0])-1][int(lec[1])]=[ "محاضرة"+"<br>"+tabl[0][lecs][0]+"<br>"+lec[3]+"<br>"+lec[2] ,"class='alert alert-success'" ]
 
+
+
+        for secs in tabl[1]:
+            sec=tabl[1][secs][1]
+            interval[int(sec[0])-1][int(sec[1])]=[ "سكشن"+"<br>"+tabl[1][secs][0]+"<br>"+sec[3]+"<br>"+sec[2] ,"class='alert alert-info'" ]
+            #interval[int(sec[0])][int(sec[1])]=[ "سكشن"+"<br>"+tabl[1][sec][0]+"<br>"+sec[3]+"<br>"+sec[2] ,"class='alert alert-success'" ]
+            try:
+                for labs in tabl[2]:
+                    lab=tabl[2][labs][1]
+                    interval[int(lab[0])-1][int(lab[1])]=[ "معمل"+"<br>"+tabl[2][labs][0]+"<br>"+lab[3]+"<br>"+lab[2] ,"class='alert alert-warning'" ]
+            except:
+                pass
+
+        return render(request,"table.html",{"titles":titles,"rows":interval,"extend": "basic.html"})
 
 
 #######################################################################################################################################
@@ -39,7 +73,7 @@ def subjects(request):
     if request.method =="GET":
         one="اسم المادة"
         two="المعيدين"
-        three="معدين المعمل"
+        three="معيدين المعمل"
         Four="عدد طلاب المادة"
         titles=[ [one,""] , [two,""] , [three,""] , [Four,""] ]
         subjects,yer,trm=subject(request.user)

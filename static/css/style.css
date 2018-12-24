@@ -21,6 +21,11 @@ nav.navbar div a.navbar-brand, nav.navbar div ul li a.nav-link {
   color: white !important;
 }
 
+nav.navbar div ul.navbar-nav {
+  margin: 0 auto;
+  padding: 0;
+}
+
 nav.navbar div li {
   text-align: right;
   background: #69686fc7;
