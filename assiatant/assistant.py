@@ -115,6 +115,9 @@ def Getclums(user,pk,dis=0):
         index=[[student.students.student.name,""]]
         full=0
         for clm in sec.degr.order_by('-pk').reverse():
+            show=""
+            if clm.show:
+                show="ظاهر"
             if dis and not sec.finsh:
                 disabled=""
             else:
@@ -122,7 +125,7 @@ def Getclums(user,pk,dis=0):
             danger=""
             
             titl=clm.name+' <br> <input size="1" type="text" name="full'+str(clm.name)+'" value="'+str(clm.full)+'" '+disabled+'>'
-            title.append(['<input type="checkbox" name="'+clm.name+'" value='+clm.name+' '+disabled+'> '+titl,""])
+            title.append(['<input type="checkbox" name="'+clm.name+'" value='+clm.name+' '+disabled+'> '+titl+"<br>"+show,""])
             full=full+clm.full
             if clm.deg ==0 and not sec.finsh:
                 disabled=""
@@ -159,7 +162,7 @@ def addclums(user,titl,cl,pk):
             if title not in titles :
                 DG=Degree.objects.get(subject=student,student=student.students)
                 sec=SectionDegree.objects.get(section=DG)
-                clum=DEG.objects.create(name=str(title),deg=0,full=0)
+                clum=DEG.objects.create(name=str(title),deg=0,full=0,show=False)
                 sec.degr.add(clum)
                 #sec.save()
         c=c+1
@@ -244,6 +247,26 @@ def deleteclums(request,pk,check):
         if not check:
             sec.total=0
             sec.save(update_fields=['total'])
+#########################################################################################################################################
+
+def show(request,pk):
+    ass=TeachingAssistant.objects.get(user=request.user)
+    yer,trm=final_term(Table.objects.filter(Assistant=ass))
+    students=RegisterSubject.objects.filter(current_A=ass,subjects=pk,term=str(trm),year=yer)
+    rows=[]
+    for student in students:
+        DG=Degree.objects.get(subject=student,student=student.students)
+        sec=SectionDegree.objects.get(section=DG)
+        for clm in sec.degr.all():
+            try:
+            
+                if str(clm.name )== str(request.POST.get(clm.name) ):
+                    clm.show=True
+                    clm.save(update_fields=['show'])
+                
+            except:
+                pass
+        
 
 
 

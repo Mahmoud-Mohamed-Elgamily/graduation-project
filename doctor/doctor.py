@@ -13,6 +13,39 @@ def final_term(doctor):
 
 
 ##############################################################################################################################
+def Necessaryclums(request,pk,student,lec,get=0):
+    cheack=False
+    try:
+        lec.degr.get(name="Total_lec")
+    except:
+        cheack=True
+        lec.degr.add( DEG.objects.create(name="Total_lec",deg=0,full=20,show=False) )
+    try:
+        lec.degr.get(name="midterm")
+    except:
+        lec.degr.add(DEG.objects.create(name="midterm",deg=0,full=20,show=False))
+    if student.current_L.count():
+        try:
+            lec.degr.get(name="Total")
+        except:
+            cheack=True
+            lec.degr.add(DEG.objects.create(name="Total",deg=0,full=50,show=False))
+        try:
+            lec.degr.get(name="Practical")
+        except:
+            lec.degr.add(DEG.objects.create(name="Practical",deg=0,full=10,show=False))
+            
+    else:
+        try:
+            lec.degr.get(name="Total")
+        except:
+            cheack=True
+            lec.degr.add(DEG.objects.create(name="Total",deg=0,full=40,show=False))
+    
+    if cheack and get:
+        postclums(request,pk)
+
+##############################################################################################################################
 
 
 def table(user):
@@ -116,7 +149,7 @@ def addclums(user,titl,cl,pk):
             if title not in titles :
                 DG=Degree.objects.get(subject=student,student=student.students)
                 lec=LectureDegree.objects.get(lecture=DG)
-                clum=DEG.objects.create(name=str(title),deg=0,full=0)
+                clum=DEG.objects.create(name=str(title),deg=0,full=0,show=False)
                 lec.degr.add(clum)
                 #lec.save()
         c=c+1
@@ -130,7 +163,7 @@ def postclums(request,pk):
     for student in students:
         DG=Degree.objects.get(subject=student,student=student.students)
         lec=LectureDegree.objects.get(lecture=DG)
-
+        Necessaryclums(request,pk,student,lec,False)
         total_lec=0
         total=0
         for clm in lec.degr.all():
@@ -148,10 +181,11 @@ def postclums(request,pk):
             elif clm.name == "Practical" or clm.name == "midterm" :
                 total=total+clm.deg
             clm.save(update_fields=['deg'])
-
+        
         sav=lec.degr.get(name="Total_lec")
         sav.deg=total_lec
         sav.save(update_fields=['deg'])
+        
         sav=lec.degr.get(name="Total")
         sav.deg=total+total_lec
         sav.save(update_fields=['deg'])
@@ -167,8 +201,8 @@ def definsh(request,pk):
             sec.finsh=False
             sec.save(update_fields=['finsh'])
 ######################################################################################################################################
-def Getclums(user,pk,dis=0):
-    doc=Doctors.objects.get(user=user)
+def Getclums(request,pk,dis=0):
+    doc=Doctors.objects.get(user=request.user)
     yer,trm=final_term(Table.objects.filter(doctor=doc))
     students=RegisterSubject.objects.filter(current_D=doc,subjects=pk,term=str(trm),year=yer)
     rows=[]
@@ -179,6 +213,7 @@ def Getclums(user,pk,dis=0):
         DG=Degree.objects.get(subject=student,student=student.students)
         lec=LectureDegree.objects.get(lecture=DG)
         sec=SectionDegree.objects.get(section=DG)
+        Necessaryclums(request,pk,student,lec,True)
         if sec.finsh:
 
             script='"اعاة.درجات.السكشن" '
@@ -187,6 +222,9 @@ def Getclums(user,pk,dis=0):
         title=[["الاسم",]]
         index=[[student.students.student.name,""]]
         for clm in lec.degr.order_by('-pk').reverse():
+            show=""
+            if clm.show:
+                show="ظاهر"
             if dis:
                 disabled=""
             else:
@@ -203,13 +241,13 @@ def Getclums(user,pk,dis=0):
                     if total_lec != 20 :
                         danger='style="background: red;color:black"'
                         titl=titl+" <br> not "+str(total_lec)
-                    title.append([titl,danger])
+                    title.append(['<input type="checkbox" name="'+clm.name+'" value='+clm.name+' '+disabled+'> '+titl+"<br>"+show,danger])
                 else:
-                    title.append([titl,danger])
+                    title.append(['<input type="checkbox" name="'+clm.name+'" value='+clm.name+' '+disabled+'> '+titl+"<br>"+show,danger])
                 danger=''
             else:
                 titl=clm.name+' <br> <input size="1" type="text" name="full'+str(clm.name)+'" value="'+str(clm.full)+'" '+disabled+'>'
-                title.append(['<input type="checkbox" name="'+clm.name+'" value='+clm.name+' '+disabled+'> '+titl,""])
+                title.append(['<input type="checkbox" name="'+clm.name+'" value='+clm.name+' '+disabled+'> '+titl+"<br>"+show,""])
             if clm.deg ==0:
                 disabled=""
             if clm.deg > clm.full:
@@ -225,7 +263,9 @@ def Getclums(user,pk,dis=0):
                 if sec.finsh:
                     clm.deg=((sec.total*clm.full)/sec.full_degree)
                     clm.save(update_fields=['deg'])
-                    index.append([int(clm.deg),""])
+                    if clm.deg > clm.full:
+                        danger='class="btn btn-danger"'
+                    index.append([int(clm.deg),danger])
                 else:
                     clm.deg=0
                     clm.save(update_fields=['deg'])
@@ -234,6 +274,7 @@ def Getclums(user,pk,dis=0):
                 index.append(['<input size="1" type="text" name="'+str(clm.pk)+'" value="'+str(clm.deg)+'" '+disabled+'>',danger])
         rows.append(index)
         address=student.subjects.name
+    
     return title,rows,address,script
 
 
@@ -265,15 +306,36 @@ def deleteclums(request,pk,check):
                 pass
         if not check:
             if student.current_L.count():
-                clum1=DEG.objects.create(name="Total",deg=0,full=50)
-                clum3=DEG.objects.create(name="Practical",deg=0,full=10)
+                clum1=DEG.objects.create(name="Total",deg=0,full=50,show=False)
+                clum3=DEG.objects.create(name="Practical",deg=0,full=10,show=False)
                 lec.degr.add(clum1,clum3)
             else:
-                clum1=DEG.objects.create(name="Total",deg=0,full=40)
+                clum1=DEG.objects.create(name="Total",deg=0,full=40,show=False)
                 lec.degr.add(clum1)
-            clum2=DEG.objects.create(name="midterm",deg=0,full=20)
-            clum4=DEG.objects.create(name="Total_lec",deg=0,full=20)
+            clum2=DEG.objects.create(name="midterm",deg=0,full=20,show=False)
+            clum4=DEG.objects.create(name="Total_lec",deg=0,full=20,show=False)
             lec.degr.add(clum2,clum4)
+
+#########################################################################################################################################
+
+def show(request,pk):
+    doc=Doctors.objects.get(user=request.user)
+    yer,trm=final_term(Table.objects.filter(doctor=doc))
+    students=RegisterSubject.objects.filter(current_D=doc,subjects=pk,term=str(trm),year=yer)
+    rows=[]
+    for student in students:
+        DG=Degree.objects.get(subject=student,student=student.students)
+        lec=LectureDegree.objects.get(lecture=DG)
+        for clm in lec.degr.all():
+            try:
+            
+                if str(clm.name )== str(request.POST.get(clm.name) ):
+                    clm.show=True
+                    clm.save(update_fields=['show'])
+                
+            except:
+                pass
+        
 
 
 
@@ -386,3 +448,4 @@ def deleteAbsence(user,pk,check):
                 clm.delete()
         lec.absence_degree=0
         lec.save(update_fields=['absence_degree'])
+

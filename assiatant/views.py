@@ -31,6 +31,7 @@ def tbl(request):
 
         return render(request,"table.html",{"titles":titles,"rows":interval,"extend": "assiatant.html"})
 ###################################################################################################################################
+@login_required
 def depart_tbl(request):
     if request.method =="GET":
         one="الفترة/اليوم"
@@ -92,6 +93,7 @@ def students(request,pk):#               دي انا سايبها لبعدين �
         titles=[ ["<h3>"+name+"</h3>",""] ]
         return render(request,"table.html",{"titles":titles,"rows":rows,"extend": "assiatant.html","subjects":subjects})
 #####################################################################################################################
+@login_required
 def details(request,pk):
     subject_pk=Subject.objects.get(pk=pk )
     titles=[ ['<h1>'+subject_pk.name+'</h1>','colspan="2"'] ]
@@ -124,6 +126,9 @@ def dgree(request,pk):#               دي انا سايبها لبعدين لا
             return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "assiatant.html","address":address,"script":script,"subjects":subjects})
         elif request.POST.get("action")=='"تسليم.الكشف"':
             finsh(request,pk)
+            return redirect('assistant:dgree', pk=pk)
+        elif request.POST.get("action")=='اظهار.المحدد.للطلبة':
+            show(request,pk)
             return redirect('assistant:dgree', pk=pk)
         elif request.POST.get("action")=="مسح الجدول":
             deleteclums(request,pk,False)
@@ -201,8 +206,13 @@ def Absences(request,pk):#               دي انا سايبها لبعدين �
 @login_required
 def home(request):
     current_user = TeachingAssistant.objects.get(user=request.user)
+    subjects,yer,trm=subject(request.user)
     context={
         'name':'م/'+current_user.name,
+        "subjects":subjects,
         "extend": "assiatant.html"
     }
     return render(request,"body.html",context)
+
+
+

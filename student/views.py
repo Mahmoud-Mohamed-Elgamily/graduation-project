@@ -44,5 +44,6 @@ def home(request):
     current_user = Students_user.objects.get(user=request.user)
     context={
         'name':current_user.name,
+        "extend": "basic.html"
     }
     return render(request,"body.html",context)

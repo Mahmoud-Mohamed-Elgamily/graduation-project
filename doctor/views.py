@@ -28,6 +28,7 @@ def tbl(request):
 
         return render(request,"table.html",{"titles":titles,"rows":interval,'table': 'true',"extend": "basic.html","subjects":subjects})
 ################################################################################################################################################################
+@login_required
 def depart_tbl(request):
     if request.method =="GET":
         one="الفترة/اليوم"
@@ -81,6 +82,7 @@ def subjects(request):
         return render(request,"table.html",{"titles":titles,"rows":rows,'subject': 'true',"extend": "basic.html","subjects":subjects})
 
 #####################################################################################################################
+@login_required
 def details(request,pk):
     subject_pk=Subject.objects.get(pk=pk )
     titles=[ ['<h1>'+subject_pk.name+'</h1>','colspan="2"'] ]
@@ -104,7 +106,7 @@ def students(request,pk):#               دي انا سايبها لبعدين �
 @login_required
 def dgree(request,pk):#               دي انا سايبها لبعدين لان السكيرتي هنا مش قد كده
     if request.method =="GET":
-        titles,rows,address,script=Getclums(request.user,pk)
+        titles,rows,address,script=Getclums(request,pk)
         subjects,yer,trm=subject(request.user)
         return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html","address":address,"script":script,"subjects":subjects})
 
@@ -116,11 +118,14 @@ def dgree(request,pk):#               دي انا سايبها لبعدين لا
         elif request.POST.get("action")=="اضافة عمود":
             return redirect('doctor:addclm',pk=pk)
         elif request.POST.get("action")=="تعديل":
-            titles,rows,address,script=Getclums(request.user,pk,1)
+            titles,rows,address,script=Getclums(request,pk,1)
             subjects,yer,trm=subject(request.user)
             return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html","adress":address,"script":script,"subjects":subjects})
         elif request.POST.get("action")=='"اعاة.درجات.السكشن"':
             definsh(request,pk)
+            return redirect('doctor:dgree', pk=pk)
+        elif request.POST.get("action")=='اظهار.المحدد.للطلبة':
+            show(request,pk)
             return redirect('doctor:dgree', pk=pk)
         else:
             deleteclums(request,pk,False)
@@ -207,7 +212,7 @@ def home(request):
     }
     return render(request,"body.html",context)
 
-
+#################################################################################################
 def student_data(request):
     return HttpResponse("not set yet")
 
