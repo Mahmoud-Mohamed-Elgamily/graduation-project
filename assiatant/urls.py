@@ -20,4 +20,12 @@ app_name='assistant'
 urlpatterns = [
     path('home/', views.home, name='home'),
     path('tbl/', views.tbl, name='tbl'),
+    path('depart_tbl/', views.depart_tbl, name='depart_tbl'),
+    path('subjects/', views.subjects, name='subjects'),
+    path('subjects/<int:pk>/', views.students, name='students'),
+    path('subjects/details/<int:pk>/', views.details, name='details'),
+    path('results/<int:pk>/', views.dgree, name='dgree'),
+    path('addclm/<int:pk>/', views.AddClm, name='addclm'),
+    path('absence/<int:pk>/', views.Absences, name='absence'),
+    path('addabsence/<int:pk>/', views.addAbsences, name='addabsence'),
 ]

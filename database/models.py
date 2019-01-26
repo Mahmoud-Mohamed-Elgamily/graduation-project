@@ -294,6 +294,7 @@ class Table(models.Model):
     interval=models.CharField(max_length=100,choices=interval)
     location=models.CharField(max_length=400)
     year=models.PositiveIntegerField()
+    department = models.CharField(max_length=100,choices=Departments)
     term=models.CharField(max_length=100,choices=Terms)
     day=models.CharField(max_length=100,choices=day)
     doctor = models.ForeignKey(Doctors,blank=True,on_delete=models.SET_NULL,null=True)
@@ -360,6 +361,7 @@ class LectureDegree (models.Model):
     lab=models.PositiveIntegerField(blank=True)
     # Variables
     total=models.PositiveIntegerField(blank=True)
+    finsh = models.BooleanField(blank=True)
     def __str__(self):
         return self.lecture.subject.subjects.name+" to "+self.lecture.student.student.name
 
@@ -373,9 +375,13 @@ class SectionDegree(models.Model):
     # Relations
     degr=models.ManyToManyField(DEG,blank=True)
     absence=models.ManyToManyField(Absence,blank=True)
+    absence_degree=models.PositiveIntegerField(blank=True)
+    absence_total=models.PositiveIntegerField(blank=True)
     section=models.OneToOneField(Degree,on_delete=models.CASCADE)
     # Variables
+    full_degree=models.PositiveIntegerField(blank=True)
     total=models.PositiveIntegerField(blank=True)
+    finsh = models.BooleanField(blank=True)
     def __str__(self):
         return self.section.subject.subjects.name+" to "+self.section.student.student.name
 
@@ -388,10 +394,8 @@ class SectionDegree(models.Model):
 
 class LABDegree(models.Model):
     # Relations
-    degr=models.ManyToManyField(DEG,blank=True)
     absence=models.ManyToManyField(Absence,blank=True)
-    LAB=models.OneToOneField(Degree,on_delete=models.CASCADE)
-    # Variables
-    total=models.PositiveIntegerField(blank=True)
+    absence_degree=models.PositiveIntegerField(blank=True)
+    absence_total=models.PositiveIntegerField(blank=True)
     def __str__(self):
         return self.LAB.subject.subjects.name+" to "+self.LAB.student.student.name

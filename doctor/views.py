@@ -60,8 +60,8 @@ def depart_tbl(request):
                     interval[int(lab[0])-1][int(lab[1])]=[ "معمل"+"<br>"+tabl[2][labs][0]+"<br>"+lab[3]+"<br>"+lab[2] ,"class='alert alert-warning'" ]
             except:
                 pass
-
-        return render(request,"table.html",{"titles":titles,"rows":interval,"extend": "basic.html"})
+        subjects,yer,trm=subject(request.user)
+        return render(request,"table.html",{"titles":titles,"rows":interval,"extend": "basic.html","subjects":subjects})
 
 
 #######################################################################################################################################
@@ -84,7 +84,7 @@ def subjects(request):
 def details(request,pk):
     subject_pk=Subject.objects.get(pk=pk )
     titles=[ ['<h1>'+subject_pk.name+'</h1>','colspan="2"'] ]
-    
+
     rows=[ [ ["Specialization",""] ,[subject_pk.get_Specialization_display(),'']  ],[ ["department",""] ,[subject_pk.get_department_display(),''] ],[ ["no_hours",""] ,[subject_pk.no_hours,''] ],[ ["Optional",""] ,[subject_pk.get_Optional_display(),''] ],[ ["level",""] ,[subject_pk.get_level_display(),''] ]]
     subjects,yer,trm=subject(request.user)
     return render(request,"table.html",{"titles":titles,"rows":rows,'subject': 'true',"extend": "basic.html","subjects":subjects})
@@ -104,9 +104,9 @@ def students(request,pk):#               دي انا سايبها لبعدين �
 @login_required
 def dgree(request,pk):#               دي انا سايبها لبعدين لان السكيرتي هنا مش قد كده
     if request.method =="GET":
-        titles,rows=Getclums(request.user,pk)
+        titles,rows,address,script=Getclums(request.user,pk)
         subjects,yer,trm=subject(request.user)
-        return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html","subjects":subjects})
+        return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html","address":address,"script":script,"subjects":subjects})
 
     if request.method =="POST":
         if request.POST.get("action")=="تسجيل":
@@ -116,10 +116,12 @@ def dgree(request,pk):#               دي انا سايبها لبعدين لا
         elif request.POST.get("action")=="اضافة عمود":
             return redirect('doctor:addclm',pk=pk)
         elif request.POST.get("action")=="تعديل":
-            titles,rows=Getclums(request.user,pk,1)
+            titles,rows,address,script=Getclums(request.user,pk,1)
             subjects,yer,trm=subject(request.user)
-            return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html","subjects":subjects})
-
+            return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html","adress":address,"script":script,"subjects":subjects})
+        elif request.POST.get("action")=='"اعاة.درجات.السكشن"':
+            definsh(request,pk)
+            return redirect('doctor:dgree', pk=pk)
         else:
             deleteclums(request,pk,False)
         return redirect('doctor:dgree', pk=pk)
@@ -156,7 +158,7 @@ def addAbsences(request,pk):#               دي انا سايبها لبعدي�
     if request.method =="POST":
         addAbsence(request.user,request.POST.get("colm"),request.POST.get("hidden"))
         return redirect('doctor:absence', pk=pk)
-        
+
 
 
 
@@ -166,9 +168,12 @@ def addAbsences(request,pk):#               دي انا سايبها لبعدي�
 @login_required
 def Absences(request,pk):#               دي انا سايبها لبعدين لان السكيرتي هنا مش قد كده
     if request.method =="GET":
-        titles,rows=GetAbsence(request.user,pk)
+        titles,rows,address=GetAbsence(request.user,pk)
+        print("ok ")
+        print("ok ")
+        print(address)
         subjects,yer,trm=subject(request.user)
-        return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html","subjects":subjects})
+        return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html","address":address,"subjects":subjects})
 
     if request.method =="POST":
         if request.POST.get("action")=="تسجيل":
@@ -178,9 +183,9 @@ def Absences(request,pk):#               دي انا سايبها لبعدين �
         elif request.POST.get("action")=="اضافة عمود":
             return redirect('doctor:addabsence',pk=pk)
         elif request.POST.get("action")== "تعديل" :
-            titles,rows=GetAbsence(request.user,pk,0)
+            titles,rows,address=GetAbsence(request.user,pk,0)
             subjects,yer,trm=subject(request.user)
-            return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html","subjects":subjects})
+            return render(request,"table.html",{"titles":titles,"rows":rows,"register":1,"id":pk,"extend": "basic.html","address":address,"subjects":subjects})
 
         else:
             deleteAbsence(request.user,pk,False)
@@ -194,12 +199,15 @@ def Absences(request,pk):#               دي انا سايبها لبعدين �
 @login_required
 def home(request):
     current_user = Doctors.objects.get(user=request.user)
+    subjects,yer,trm=subject(request.user)
     context={
         'name':'د/ '+current_user.name,
+        "subjects":subjects,
+        "extend": "basic.html"
     }
     return render(request,"body.html",context)
 
-    
+
 def student_data(request):
     return HttpResponse("not set yet")
 

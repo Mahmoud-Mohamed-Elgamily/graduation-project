@@ -1,7 +1,7 @@
 {% extends extend %}
 {% block content %}
 
-
+<h1 align="center">{{address}}</h1>
 <div class="container">
   <form class="form-group row" method="post">
   {% csrf_token %}
@@ -26,13 +26,23 @@
 
                   </table>
   {% if register %}
-  <input align="center" type="submit" name="action" value="مسح الجدول" class="btn btn-danger">
-  <input align="center" type="submit" name="action" value="مسح المحدد" class="btn btn-danger">
-  <input align="center" type="submit" name="action" value="اضافة عمود" class="btn btn-primary">
-  <input align="center" type="submit" name="action" value="تعديل" class="btn btn-warning">
- 
-  <input align="center" type="submit" name="action" value="تسجيل" class="btn btn-success">
-
+    <div class="row">
+        <div class="col">
+          <input align="center" type="submit" name="action" value="مسح الجدول" class="btn btn-danger">
+        </div>
+        <div class="col">
+          <input align="center" type="submit" name="action" value="مسح المحدد" class="btn btn-danger">
+        </div>
+        <div class="col">
+          <input align="center" type="submit" name="action" value="اضافة عمود" class="btn btn-primary">
+        </div>
+        <div class="col">
+          <input align="center" type="submit" name="action" value="تعديل" class="btn btn-warning">
+        </div>
+        <div class="col">
+          <input align="center" type="submit" name="action" value="تسجيل" class="btn btn-success">
+        </div>
+    </div>
 
   {% endif %}
 

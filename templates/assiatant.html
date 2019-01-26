@@ -27,16 +27,16 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                 <li class="nav-item {% if subject == 'true' %}active{% endif %}">
-                    <a class="nav-link" href="{% url 'doctor:subjects' %}">المواد الدراسية</a>
+                    <a class="nav-link" href="{% url 'assistant:subjects' %}">المواد الدراسية</a>
                 </li>
-                
+
                 <li class="nav-item dropdown nav-item {% if table == 'true' %}active{% endif %}">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     الجداول
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="{% url 'doctor:depart_tbl' %}">جدول القسم</a>
-                    <a class="dropdown-item" href="{% url 'doctor:tbl' %}"> الجدول الشخصي</a>
+                    <a class="dropdown-item" href="{% url 'assistant:depart_tbl' %}">جدول القسم</a>
+                    <a class="dropdown-item" href="{% url 'assistant:tbl' %}"> الجدول الشخصي</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -45,7 +45,9 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         {% for subject in subjects %}
-                            <a class="dropdown-item" href="{% url 'doctor:dgree' pk=subject.subject.pk %}">{{subject.subject.name}}</a>
+                            {% if subject.nameAction == 'sec' %}
+                            <a class="dropdown-item" href="{% url 'assistant:dgree' pk=subject.subject.pk %}">{{subject.subject.name}}</a>
+                            {% endif %}
                         {% endfor %}
                     </div>
                 </li>
@@ -55,7 +57,10 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             {% for subject in subjects %}
-                                <a class="dropdown-item" href="{% url 'doctor:absence' subject.subject.pk %}">{{subject.subject.name}}</a>
+                                <!-- <a class="dropdown-item" href="{% url 'assistant:absence' subject.subject.pk %}">{{subject.subject.name}}_{{subject.get_nameAction_display}}</a> -->
+                                {% if subject.nameAction == 'sec' %}
+                                <a class="dropdown-item" href="{% url 'assistant:absence' subject.subject.pk %}">{{subject.subject.name}}</a>
+                                {% endif %}
                             {% endfor %}
                         </div>
                     </li>
@@ -83,17 +88,18 @@
         </div>
             <div class="content">
                 {% block content %}
-                
+
                 {% endblock %}
                 {% if script %}
-                <form class="form-group row" method="post">
-                        {% csrf_token %}
-                    <input align="center" type="submit" name="action" class="btn btn-secondary" value={{script}} >
-                </form>
+                    <form class="form-group row" method="post">
+                            {% csrf_token %}
+                        <input align="center" type="submit" name="action" class="btn btn-secondary" value={{script}} >
+                    </form>
                 {% endif %}
-            </div>    
+                
+            </div>
         </div>
-        
+
         <footer>
             <h5>copy right</h5>
         </footer>

@@ -36,28 +36,20 @@ def table(user):
 
 def depart_table(user):
     doc=Doctors.objects.get(user=user)
-    subjects=RegisterSubject.objects.filter(department=doc.department)
+    subjects=Table.objects.filter(department=doc.department)
     yer,trm=final_term(subjects)
-    subjects=subjects=RegisterSubject.objects.filter(department=doc.department,term=str(trm),year=yer)
-    tabl={}
+    subjects=subjects=Table.objects.filter( department=doc.department,term=str(trm),year=yer )
     section={}
     lecture={}
     LAB={}
     for sbjct in subjects :
-        lecs=Table.objects.filter(subject=sbjct.subjects,nameAction='lec',year=yer,term=trm)
-        for lec in lecs:
-            lecture.update( {lec.subject.name+"@"+lec.day+lec.interval:[ lec.subject.name,[lec.interval,lec.day,lec.location,lec.doctor.name]  ] })
+        if sbjct.nameAction =='lec':
+            lecture.update( {sbjct.subject.name+"@"+sbjct.day+sbjct.interval:[ sbjct.subject.name,[sbjct.interval,sbjct.day,sbjct.location,sbjct.doctor.name]  ] })
 
-        secs=Table.objects.filter(subject=sbjct.subjects,nameAction='sec',year=yer,term=trm)
-        for sec in secs:
-            section.update( {sec.subject.name+"@"+sec.day+sec.interval:[ sec.subject.name,[sec.interval,sec.day,sec.location,sec.Assistant.name]  ] })
-        try:
-            labs=Table.objects.filter(subject=sbjct.subjects,nameAction='lab',year=yer,term=trm)
-        except:
-            pass
-        else:
-            for lab in labs:
-                LAB.update({lab.subject.name+"@"+lab.day+lab.interval: [ lab.subject.name,[lab.interval,lab.day,lab.location,lab.Assistant.name]  ] })
+        elif sbjct.nameAction =='sec':
+            section.update( {sbjct.subject.name+"@"+sbjct.day+sbjct.interval:[ sbjct.subject.name,[sbjct.interval,sbjct.day,sbjct.location,sbjct.Assistant.name]  ] })
+        elif sbjct.nameAction =='lab':
+            LAB.update({sbjct.subject.name+"@"+sbjct.day+sbjct.interval: [ sbjct.subject.name,[sbjct.interval,sbjct.day,sbjct.location,sbjct.Assistant.name]  ] })
     return [lecture,section,LAB]
 
 
@@ -81,9 +73,9 @@ def subject(user , subjects=0,yer=0,trm=0):
         subjectss=RegisterSubject.objects.filter(subjects=subject.subject,term=str(trm),year=yer ).count()
         # for subjec in subject.subject.Requirement.all():
         #     subjectss=subjectss+str(subjec.name)+"<br>"
-        
+
         url1='<a href="details/'+str(subject.subject.pk)+'"><h4>'+str(subject.subject.name)+'</h4></a>'
-        
+
         url='<a href="'+str(subject.subject.pk)+'"><h4>'+str(subjectss)+'</h4></a>'
         tabl.append( [ [url1,""],[assistants,""],[lab_Assistancs,""],[url,""] ] )
     return tabl
@@ -115,10 +107,10 @@ def addclums(user,titl,cl,pk):
         lec=LectureDegree.objects.get(lecture=DG)
         for clm in lec.degr.all():
             titles.append(clm.name)
-    
-    
+
+
     c=1
-    title=titl         
+    title=titl
     for i in range(int(cl)):
         for student in students:
             if title not in titles :
@@ -129,7 +121,7 @@ def addclums(user,titl,cl,pk):
                 #lec.save()
         c=c+1
         title=str(titl)+str(c)
-     
+
 ##############################################################################################################################@@@
 def postclums(request,pk):
     doc=Doctors.objects.get(user=request.user)
@@ -138,7 +130,7 @@ def postclums(request,pk):
     for student in students:
         DG=Degree.objects.get(subject=student,student=student.students)
         lec=LectureDegree.objects.get(lecture=DG)
-        
+
         total_lec=0
         total=0
         for clm in lec.degr.all():
@@ -156,14 +148,24 @@ def postclums(request,pk):
             elif clm.name == "Practical" or clm.name == "midterm" :
                 total=total+clm.deg
             clm.save(update_fields=['deg'])
-       
+
         sav=lec.degr.get(name="Total_lec")
         sav.deg=total_lec
         sav.save(update_fields=['deg'])
         sav=lec.degr.get(name="Total")
         sav.deg=total+total_lec
         sav.save(update_fields=['deg'])
-
+######################################################################################################################################
+def definsh(request,pk):
+    doc=Doctors.objects.get(user=request.user)
+    yer,trm=final_term(Table.objects.filter(doctor=doc))
+    students=RegisterSubject.objects.filter(current_D=doc,subjects=pk,term=str(trm),year=yer)
+    for student in students:
+        DG=Degree.objects.get(subject=student,student=student.students)
+        sec=SectionDegree.objects.get(section=DG)
+        if sec.finsh:
+            sec.finsh=False
+            sec.save(update_fields=['finsh'])
 ######################################################################################################################################
 def Getclums(user,pk,dis=0):
     doc=Doctors.objects.get(user=user)
@@ -171,17 +173,24 @@ def Getclums(user,pk,dis=0):
     students=RegisterSubject.objects.filter(current_D=doc,subjects=pk,term=str(trm),year=yer)
     rows=[]
     title=[]
+    script=""
     for student in students:
-        
+
         DG=Degree.objects.get(subject=student,student=student.students)
         lec=LectureDegree.objects.get(lecture=DG)
+        sec=SectionDegree.objects.get(section=DG)
+        if sec.finsh:
+
+            script='"اعاة.درجات.السكشن" '
+        else:
+            script='"لم.تكتمل.درجات.السكشن" '+'disabled'
         title=[["الاسم",]]
         index=[[student.students.student.name,""]]
         for clm in lec.degr.order_by('-pk').reverse():
             if dis:
                 disabled=""
             else:
-                disabled='disabled style="background: rgb(175, 175, 180);color:black"' 
+                disabled='disabled style="background: rgb(175, 175, 180);color:black"'
             danger=""
             titl=clm.name
             if clm.name == "Total_lec" or clm.name == "Practical" or clm.name == "midterm" or clm.name == "Total":
@@ -211,10 +220,21 @@ def Getclums(user,pk,dis=0):
                 clm.deg=((lec.absence_degree*clm.full)/lec.absence_total)
                 clm.save(update_fields=['deg'])
                 index.append([int(clm.deg),""])
+            elif clm.name == "Section":
+                sec=SectionDegree.objects.get(section=DG)
+                if sec.finsh:
+                    clm.deg=((sec.total*clm.full)/sec.full_degree)
+                    clm.save(update_fields=['deg'])
+                    index.append([int(clm.deg),""])
+                else:
+                    clm.deg=0
+                    clm.save(update_fields=['deg'])
+                    index.append(["not finshed",""])
             else:
                 index.append(['<input size="1" type="text" name="'+str(clm.pk)+'" value="'+str(clm.deg)+'" '+disabled+'>',danger])
         rows.append(index)
-    return title,rows
+        address=student.subjects.name
+    return title,rows,address,script
 
 
 #########################################################################################################################################
@@ -254,7 +274,7 @@ def deleteclums(request,pk,check):
             clum2=DEG.objects.create(name="midterm",deg=0,full=20)
             clum4=DEG.objects.create(name="Total_lec",deg=0,full=20)
             lec.degr.add(clum2,clum4)
-        
+
 
 
 
@@ -267,15 +287,15 @@ def addAbsence(user,cl,pk):
     yer,trm=final_term(Table.objects.filter(doctor=doc))
     students=RegisterSubject.objects.filter(current_D=doc,subjects=pk,term=str(trm),year=yer)
     index=[]
-    rang=students.count()  
+    rang=students.count()
     for count in range(rang):
         for i in range(int(cl)):
             index.append(Absence(name=i+1,check=False))
     #if rang*int(cl) >100
     batch_size = len(index)
     batch = list(islice(index, batch_size))
-    Absence.objects.bulk_create(batch, batch_size)  
-    
+    Absence.objects.bulk_create(batch, batch_size)
+
     firist_pk=(Absence.objects.latest('id').pk-(rang*int(cl) ) )+1
     for student in students:
         DG=Degree.objects.get(subject=student,student=student.students)
@@ -285,52 +305,6 @@ def addAbsence(user,cl,pk):
             firist_pk=firist_pk+1
         lec.absence_total=int(cl)
         lec.save(update_fields=['absence_total'])
-#     batch_size = 100
-# while True:
-#     batch = list(islice(total, batch_size))
-#     if not batch:
-#         break
-#     LectureDegree.objects.bulk_create(batch, batch_size)
-
-
-
-#     for student in students:
-#         for i in range(int(cl)):
-#             DG=Degree.objects.get(subject=student,student=student.students)
-#             clum=Absence.objects.create(name=i+1,check=False)
-#             lec=LectureDegree.objects.get(lecture=DG)
-#             lec.absence.add(clum)
-
-#         lec.absence_total=int(cl)
-#         total.append(lec)
-#     batch_size = 100
-# while True:
-#     batch = list(islice(total, batch_size))
-#     if not batch:
-#         break
-#     LectureDegree.objects.bulk_create(batch, batch_size)
-
-    # for student in students:
-    #     for i in range(int(cl)):
-    #         DG=Degree.objects.get(subject=student,student=student.students)
-    #         lec=LectureDegree.objects.get(lecture=DG)
-    #         clum=Absence.objects.create(name=i+1,check=False)
-    #         lec.absence.add(clum)
-    #     lec.absence_total=int(cl)
-    #     lec.save(update_fields=['absence_total'])
-    #         #lec.save()
-
-
-
-
-# batch_size = 100
-# objs = (Entry(headline='Test %s' % i) for i in range(1000))
-# while True:
-#     batch = list(islice(objs, batch_size))
-#     if not batch:
-#         break
-#     Entry.objects.bulk_create(batch, batch_size)
-
 
 ##########################################################################################################
 
@@ -355,12 +329,13 @@ def GetAbsence(user,pk,dis=0):
                 if dis:
                     disabled="disabled"
             index.append(['<input type="checkbox" name="'+str(clm.pk)+'" value="'+str(1)+'"'+check+' '+disabled+'>',""])
-            
+
 
         index.append([lec.absence_degree,""])
         rows.append(index)
     title.append(["total",""])
-    return title,rows
+    address=student.subjects.name
+    return title,rows,address
 
 
 
