@@ -319,7 +319,7 @@ class Degree(models.Model):
     student=models.ForeignKey(Students,related_name='student31',on_delete=models.CASCADE)
     # Variables
     midterm=models.PositiveIntegerField(blank=True)
-    final=models.PositiveIntegerField(blank=True)
+    final=models.PositiveIntegerField(blank=True ,default=50)
     total=models.PositiveIntegerField(blank=True)
 
     class Meta:

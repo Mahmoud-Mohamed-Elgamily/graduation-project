@@ -1,0 +1,106 @@
+{% extends extend %}
+
+{% load staticfiles%}
+
+{% block content %}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+
+
+<div id="studentProfile">
+
+    <div class="container">
+        <div class="left-content">
+            <img src="{% static 'img/images.png' %}" alt="avatar">
+        </div>
+        <div class="right-content">
+            <span class="greeting">مرحبا</span>
+            <h2 class="my-name">
+                <span>محمود محمد محمود محمد الجميلي</span>
+            </h2>
+            <br>
+            <div class="row">
+                <div class="col-md-6 col-xs-12 mb-4 mt-2">
+                    <h6 style="color:#2dcc70">البيانات الشخصية</h6 style="color:#2dcc70">
+                    <div class="detail-infor">
+                        <div class="labels">
+                            <p>السن <span>:</span> </p>
+                            <p>تاريخ الميلاد<span>:</span> </p>
+                            <p>الجنسية<span>:</span> </p>
+                            <p>النوع<span>:</span> </p>
+                            <p>الرقم القومي<span>:</span> </p>
+                        </div>
+                        <div class="infor">
+                            <p>23</p>
+                            <p>22/3/1996</p>
+                            <p>مصري</p>
+                            <p>ذكر</p>
+                            <p>1891561232058</p>
+                        </div> 
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12 mb-4 mt-2">
+                    <h6 style="color:#2dcc70">بيانات التواصل</h6 style="color:#2dcc70">
+                    <div class="detail-infor">
+                        <div class="labels">
+                            <p>إسم الوالد <span>:</span> </p>
+                            <p>العنوان<span>:</span> </p>
+                            <p>رقم الوالد<span>:</span> </p>
+                            <p>رقم الطالب<span>:</span> </p>
+                            <p>الهاتف المنزلي<span>:</span> </p>
+                        </div>
+                        <div class="infor">
+                            <p>محمد محمود محمد الجميلي</p>
+                            <p>شبرا - مركز بني عبيد - الدقهليه</p>
+                            <p>01026029711</p>
+                            <p>01005198495</p>
+                            <p>0502648915</p>
+                        </div> 
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12 mb-4 mt-2">
+                    <h6 style="color:#2dcc70">بيانات التأهيل</h6 style="color:#2dcc70">
+                    <div class="detail-infor">
+                        <div class="labels">
+                            <p>المؤهل <span>:</span> </p>
+                            <p>عام<span>:</span> </p>
+                            <p>الدور<span>:</span> </p>
+                            <p>الدرجات<span>:</span> </p>
+                            <p>رقم الجلوس<span>:</span> </p>
+                        </div>
+                        <div class="infor">
+                            <p>ثانوى عام رياضة</p>
+                            <p>2013-2014</p>
+                            <p>الأول</p>
+                            <p>615</p>
+                            <p>5628457</p>
+                        </div> 
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12 mb-4 mt-2">
+                    <h6 style="color:#2dcc70">مؤهل طلاب المعاهد</h6 style="color:#2dcc70">
+                    <div class="detail-infor">
+                        <div class="labels">
+                            <p>إسم المعهد<span>:</span> </p>
+                            <p>عام<span>:</span> </p>
+                        </div>
+                        <div class="infor">
+                            <p>---------</p>
+                            <p>---------</p>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-content">
+            <a href="#"><i class="fab fa-facebook-square"></i></a>
+            <a href="#"><i class="fab fa-codepen"></i></a>
+            <a href="#"><i class="fab fa-google"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"> <i class="fab fa-github"></i></a>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+
+{% endblock %}

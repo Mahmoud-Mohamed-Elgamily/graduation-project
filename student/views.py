@@ -2,6 +2,7 @@ from django.shortcuts import  render,redirect,HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .student import *
+
 # Create your views here.
 @login_required
 def tbl(request):
@@ -37,13 +38,32 @@ def tbl(request):
             except:
                 pass
 
-        return render(request,"table.html",{"titles":titles,"rows":interval,"extend": "basic.html"})
+        return render(request,"table.html",{"titles":titles,"rows":interval,"extend": "student.html" , 'table':'true'})
 
 @login_required
 def home(request):
-    current_user = Students_user.objects.get(user=request.user)
+    current_user = Students_user.objects.get(pk=request.user.id)
     context={
-        'name':current_user.name,
-        "extend": "basic.html"
+        'name':current_user,
+        "extend": "student.html",
     }
     return render(request,"body.html",context)
+
+
+@login_required
+def data(request):
+    
+    return render(request , 'studentProfile.html',{'extend':'student.html', 'data':'true'})
+
+
+@login_required
+def grades(request):
+    
+    students = Degree.objects.get(pk=request.user.id)
+    
+    return render(request , 'studentGrades.html',{'extend':'student.html', 'grades':'true','students':students})
+
+
+@login_required
+def absence(request):
+    pass

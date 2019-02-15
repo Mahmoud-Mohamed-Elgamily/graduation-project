@@ -19,5 +19,8 @@ from . import views
 app_name='student'
 urlpatterns = [
     path('home/', views.home, name='home'),
+    path('data/', views.data, name='data'),
     path('tbl/', views.tbl, name='tbl'),
+    path('grades/', views.grades, name='grades'),
+
 ]
