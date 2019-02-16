@@ -58,8 +58,9 @@ def data(request):
 
 @login_required
 def grades(request):
-    
-    students = Degree.objects.get(pk=request.user.id)
+    students = Students_user.objects.get(user=request.user)
+    students =Students.objects.get(student=students)
+    students = Degree.objects.filter(student=students)
     
     return render(request , 'studentGrades.html',{'extend':'student.html', 'grades':'true','students':students})
 

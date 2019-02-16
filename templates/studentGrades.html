@@ -2,5 +2,7 @@
 {% block content %}
 
     <h1>hello from grades !</h1>
-    {{students.student.student.name}}
+    {%for student in students%}
+    {{student.subject.subjects.name}}
+    {% endfor %}
 {% endblock %}
