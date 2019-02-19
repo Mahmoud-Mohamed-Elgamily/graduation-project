@@ -209,6 +209,32 @@ class StudentData(models.Model):
     studentData_code = models.PositiveIntegerField(unique=True)
     place = models.CharField(max_length=400)
 
+# personal data
+    studentPhoneNumber = models.models.PositiveIntegerField()
+    identityNumber = models.models.PositiveIntegerField()
+    nationality = models.CharField(max_length=100)
+    age = models.models.PositiveIntegerField()
+    gender = models.BooleanField()
+    birthDate = models.DateField()
+    image = models.ImageField()
+
+# communicaton data
+    parentPhoneNumber = models.models.PositiveIntegerField()
+    homeNumber = models.models.PositiveIntegerField()
+    parentName = models.CharField(max_length=200)
+    address =  models.CharField(max_length=200)
+
+# Prequalfication 
+    qualification = models.CharField(max_length=100)
+    seatNumber = models.PositiveIntegerField()
+    turn = models.CharField(max_length=100)
+    grades = models.PositiveIntegerField()
+    schoolYear = models.DateField()
+
+# Post Secondary Education
+    instituteName = models.CharField(max_length=100)
+    instituteYear = models.DateField()
+
     def __str__(self):
         return self.student.name
 
