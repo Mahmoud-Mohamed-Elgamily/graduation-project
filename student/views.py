@@ -53,8 +53,14 @@ def home(request):
 
 @login_required
 def data(request):
-    
-    return render(request , 'studentProfile.html',{'extend':'student.html', 'data':'true'})
+    current_user = Students_user.objects.get(pk=request.user.id)
+    context={
+        'name':current_user,
+        'extend': 'student.html',
+        'extend':'student.html',
+        'data':'true'
+    }
+    return render(request , 'studentProfile.html',context)
 
 
 @login_required
