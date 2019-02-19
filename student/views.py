@@ -2,6 +2,7 @@ from django.shortcuts import  render,redirect,HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .student import *
+from django.template.defaulttags import register
 
 # Create your views here.
 @login_required
@@ -59,12 +60,34 @@ def data(request):
 @login_required
 def grades(request):
     students = Students_user.objects.get(user=request.user)
-    students =Students.objects.get(student=students)
+    students = Students.objects.get(student=students)
     students = Degree.objects.filter(student=students)
-    
-    return render(request , 'studentGrades.html',{'extend':'student.html', 'grades':'true','students':students})
+    quiz = {}
+    for loop in students:
+        lec=LectureDegree.objects.get(lecture=loop)
+        ques=lec.degr.filter(name="Quiz")
+        for loop2 in ques:
+            print('-'*30)
+            quiz[loop.subject.subjects.name]=loop2.deg
+            # print(loop2.deg)
+            # print(loop.subject.subjects.name)
+    # quiz =  DEG.objects.filter(name='Quiz')
+    print(quiz)
+    context = {
+        'extend':'student.html',
+        'grades':'true',
+        'students':students,
+        'quiz':quiz
+    }
+    return render(request , 'studentGrades.html',context)
 
 
 @login_required
 def absence(request):
     pass
+
+
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)

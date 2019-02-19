@@ -1,8 +1,41 @@
 {% extends extend %}
 {% block content %}
 
-    <h1>hello from grades !</h1>
-    {%for student in students%}
-    {{student.subject.subjects.name}}
-    {% endfor %}
+
+
+<div class="container">
+    <form class="form-group row" method="post">
+        {% csrf_token %}
+        <table class="responstable">
+            <tr>
+                <th>الإسم</th>
+                {% if quiz|length > students|length %}
+                    {% for q in quiz %}
+                        <th>quiz</th>
+                    {% endfor %}
+                {% else %}
+                    <th>quiz</th>
+                {% endif %}
+                <th>MidTerm</th> 
+                <th>Final</th>
+                <th>total</th>
+            </tr>
+            {%for result in students%}
+            <tr>
+                <td>{{result.subject.subjects.name}}</td>
+                {% if quiz %}
+                    {% if result.subject.subjects.name in quiz %}
+                        <td>{{quiz|get_item:result.subject.subjects.name}}</td>
+                    {% else %}
+                        <td>لا يوجد</td>
+                    {% endif %}
+                {% endif %}
+                <td>{{result.midterm}}</td>
+                <td>{{result.final}}</td>
+                <td>{{result.total}}</td>
+            </tr>
+            {%endfor%}
+        </table>
+    </form>
+</div>
 {% endblock %}
