@@ -224,7 +224,7 @@ def Getclums(request,pk,dis=0):
         for clm in lec.degr.order_by('-pk').reverse():
             show=""
             if clm.show:
-                show="ظاهر"
+                show="معلن"
             if dis:
                 disabled=""
             else:

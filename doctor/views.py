@@ -124,7 +124,7 @@ def dgree(request,pk):#               دي انا سايبها لبعدين لا
         elif request.POST.get("action")=='"اعاة.درجات.السكشن"':
             definsh(request,pk)
             return redirect('doctor:dgree', pk=pk)
-        elif request.POST.get("action")=='اظهار.المحدد.للطلبة':
+        elif request.POST.get("action")=='اعلان.المحدد.للطلبة':
             show(request,pk)
             return redirect('doctor:dgree', pk=pk)
         else:
