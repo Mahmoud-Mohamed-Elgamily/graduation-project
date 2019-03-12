@@ -55,3 +55,28 @@ def user_login(request):
                 return render(request,'login.html',{'logerro':logerro})
     else:
         return render(request,'login.html',{'logerro':logerro})
+
+
+
+
+def loginAdmin(request):
+    logerro=False
+    if request.user.is_authenticated:
+        logout(request)
+
+        
+    if request.method =="POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('admin1:home')
+            
+        else:
+            print ("someone tried to login and failed!")
+            print("username: {} and password: {}".format(username,password))
+            logerro=True
+            return render(request,'loginAdmin.html',{'logerro':logerro})
+    else:
+        return render(request,'loginAdmin.html',{'logerro':logerro})

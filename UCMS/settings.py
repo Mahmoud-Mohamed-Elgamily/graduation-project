@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'database',
     'doctor',
     'student',
-    'assiatant'
+    'assiatant',
+    'admin1'
 ]
 
 MIDDLEWARE = [

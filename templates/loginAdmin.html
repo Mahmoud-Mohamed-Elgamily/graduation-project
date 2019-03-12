@@ -16,7 +16,7 @@
     <title>Hello, world!</title>
 </head>
 
-<body style="background: url({% static 'img/background.jpg' %}) center center fixed;background-size: cover;">
+<body style="background: url({% static 'img/admin.jpg' %}) center center fixed;background-size: cover;">
     <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
         <div class="container text-center">
             <a class="navbar-brand text-cener" href="{% url 'accounts:login' %}" style="transform: translate(50%);margin-right: 50%;"><img src="{% static 'img/logo.png' %}" alt="logo" height="35px"></a>
@@ -26,8 +26,8 @@
         </div>
     </nav>
 
-  <div id='login'>
-
+  <div id='login' style="border-radius: 25px;">
+    <div style="border-radius: 25px;">
     {% if logerro %}
     <p class="class3">your username and password didn't match please try again. </p>
     <hr>
@@ -42,11 +42,10 @@
       
       <hr>
       <input type="submit" value="Login" class="btn btn-default">
-      <hr>
-      <a href="{% url 'accounts:loginAdmin' %}"> <h1 style="color:green">for admin</h1></a>
       
     </form>
   </div>
+</div>
 
   <footer id="loginfooter">
       <h5>copy right</h5>

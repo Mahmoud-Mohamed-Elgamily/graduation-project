@@ -20,12 +20,13 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('setting/', admin.site.urls),
     path('', include('database.urls')),
     path('student/', include('student.urls')),
     path('doctor/', include('doctor.urls')),
     path('accounts/', include('accounts.urls')),
     path('assistant/', include('assiatant.urls')),
+    path('admin/', include('admin1.urls')),
 ]
 
 if settings.DEBUG:
