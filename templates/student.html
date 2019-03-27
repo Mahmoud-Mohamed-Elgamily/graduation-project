@@ -43,8 +43,8 @@
                             الدرجات
                         </a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" role="button">
+                    <li class="nav-item dropdown {% if absence == 'true' %}active{% endif %}">
+                        <a class="nav-link" href="{% url 'student:absence' %}" role="button">
                             الغياب
                         </a>
                     </li>

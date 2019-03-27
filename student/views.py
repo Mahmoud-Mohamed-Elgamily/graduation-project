@@ -54,10 +54,13 @@ def home(request):
 @login_required
 def data(request):
     current_user = Students_user.objects.get(pk=request.user.id)
+    student_info = StudentData.objects.get(student=request.user.id)
+    
+    
     context={
         'name':current_user,
+        'info':student_info,
         'extend': 'student.html',
-        'extend':'student.html',
         'data':'true'
     }
     return render(request , 'studentProfile.html',context)
@@ -90,7 +93,27 @@ def grades(request):
 
 @login_required
 def absence(request):
-    pass
+    students = Students_user.objects.get(user=request.user)
+    students = Students.objects.get(student=students)
+    students = Degree.objects.filter(student=students)
+    quiz = {}
+    for loop in students:
+        lec=LectureDegree.objects.get(lecture=loop)
+        ques=lec.degr.filter(name="Quiz")
+        for loop2 in ques:
+            print('-'*30)
+            quiz[loop.subject.subjects.name]=loop2.deg
+            # print(loop2.deg)
+            # print(loop.subject.subjects.name)
+    # quiz =  DEG.objects.filter(name='Quiz')
+    print(quiz)
+    context = {
+        'extend':'student.html',
+        'absence':'true',
+        'students':students,
+        'quiz':quiz
+    }
+    return render(request , 'studentAbsence.html',context)
 
 
 

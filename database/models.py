@@ -28,6 +28,10 @@ Departments=(
 (str(4),"مشترك"),
 )
 
+GENDER_CHOICES = (
+    ('ذكر', 'ذكر'),
+    ('أنثي', 'أنثي'),
+)
 Terms=(
 (str(1),'الترم الاول'),
 (str(2),'الترم الصيفي'),
@@ -214,7 +218,7 @@ class StudentData(models.Model):
     identityNumber = models.PositiveIntegerField()
     nationality = models.CharField(max_length=100)
     age =models.PositiveIntegerField()
-    gender = models.BooleanField()
+    gender = models.CharField(max_length=100, choices=GENDER_CHOICES)
     birthDate = models.DateField()
     image = models.ImageField()
 
@@ -232,7 +236,7 @@ class StudentData(models.Model):
     schoolYear = models.DateField()
 
 # Post Secondary Education
-    instituteName = models.CharField(max_length=100)
+    instituteName = models.CharField(max_length=100 , blank=True)
     instituteYear = models.DateField()
 
     def __str__(self):
