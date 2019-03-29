@@ -90,33 +90,6 @@ def grades(request):
     }
     return render(request , 'studentGrades.html',context)
 
-
-@login_required
-def absence(request):
-    students = Students_user.objects.get(user=request.user)
-    students = Students.objects.get(student=students)
-    students = Degree.objects.filter(student=students)
-    quiz = {}
-    for loop in students:
-        lec=LectureDegree.objects.get(lecture=loop)
-        ques=lec.degr.filter(name="Quiz")
-        for loop2 in ques:
-            print('-'*30)
-            quiz[loop.subject.subjects.name]=loop2.deg
-            # print(loop2.deg)
-            # print(loop.subject.subjects.name)
-    # quiz =  DEG.objects.filter(name='Quiz')
-    print(quiz)
-    context = {
-        'extend':'student.html',
-        'absence':'true',
-        'students':students,
-        'quiz':quiz
-    }
-    return render(request , 'studentAbsence.html',context)
-
-
-
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)

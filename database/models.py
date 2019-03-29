@@ -220,7 +220,7 @@ class StudentData(models.Model):
     age =models.PositiveIntegerField()
     gender = models.CharField(max_length=100, choices=GENDER_CHOICES)
     birthDate = models.DateField()
-    image = models.ImageField()
+    image = models.ImageField(upload_to='profile', blank=True )
 
 # communicaton data
     parentPhoneNumber = models.PositiveIntegerField()

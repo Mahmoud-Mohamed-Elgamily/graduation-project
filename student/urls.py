@@ -22,6 +22,5 @@ urlpatterns = [
     path('data/', views.data, name='data'),
     path('tbl/', views.tbl, name='tbl'),
     path('grades/', views.grades, name='grades'),
-    path('absence/', views.absence, name='absence'),
 
 ]
