@@ -113,6 +113,7 @@ def dgree(request,pk):#               دي انا سايبها لبعدين لا
     if request.method =="POST":
         if request.POST.get("action")=="تسجيل":
             postclums(request,pk)
+            Getclums(request,pk)#fixed only
         elif request.POST.get("action")=="مسح المحدد":
             deleteclums(request,pk,True)
         elif request.POST.get("action")=="اضافة عمود":

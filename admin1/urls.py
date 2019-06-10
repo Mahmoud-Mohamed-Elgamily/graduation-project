@@ -19,7 +19,12 @@ from . import views
 app_name='admin1'
 urlpatterns = [
     path('home/', views.home, name='home'),
-
+    path('student/', views.student, name='student'),
+    path('departmenet/', views.departmenet, name='departmenet'),
+    path('controll/', views.controll, name='controll'),
+    path('money/', views.money, name='money'),
+    path('register/', views.register, name='register'),
+    path('table/', views.table, name='table'),
 
 
 
@@ -39,7 +44,7 @@ urlpatterns = [
 #     path('addabsence/<int:pk>/', views.addAbsences, name='addabsence'),
 # #
 #     path('stdata/', views.student_data, name='student_data'),
-    
+
 #     path('monitor/', views.monitor, name='monitor'),
 #     path('profile/', views.profile, name='profile'),
 #     path('mail/', views.mail, name='mail'),

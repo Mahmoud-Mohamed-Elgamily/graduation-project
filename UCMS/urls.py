@@ -20,16 +20,16 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('setting/', admin.site.urls),
+    path('set/', admin.site.urls),
     path('', include('database.urls')),
     path('student/', include('student.urls')),
     path('doctor/', include('doctor.urls')),
     path('accounts/', include('accounts.urls')),
     path('assistant/', include('assiatant.urls')),
+    path('quis/', include('quizes.urls')),
     path('admin/', include('admin1.urls')),
 ]
 
 if settings.DEBUG:
     urlpatterns = urlpatterns + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    

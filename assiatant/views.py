@@ -97,7 +97,7 @@ def students(request,pk):#               دي انا سايبها لبعدين �
 def details(request,pk):
     subject_pk=Subject.objects.get(pk=pk )
     titles=[ ['<h1>'+subject_pk.name+'</h1>','colspan="2"'] ]
-    
+
     rows=[ [ ["Specialization",""] ,[subject_pk.get_Specialization_display(),'']  ],[ ["department",""] ,[subject_pk.get_department_display(),''] ],[ ["no_hours",""] ,[subject_pk.no_hours,''] ],[ ["Optional",""] ,[subject_pk.get_Optional_display(),''] ],[ ["level",""] ,[subject_pk.get_level_display(),''] ]]
     subjects,yer,trm=subject(request.user)
     return render(request,"table.html",{"titles":titles,"rows":rows,'subject': 'true',"extend": "assiatant.html","subjects":subjects})
@@ -115,11 +115,12 @@ def dgree(request,pk):#               دي انا سايبها لبعدين لا
     if request.method =="POST":
         if request.POST.get("action")=="تسجيل":
             postclums(request,pk)
+            Getclums(request.user,pk)#fixed only
         elif request.POST.get("action")=="مسح المحدد":
             deleteclums(request,pk,True)
         elif request.POST.get("action")=="اضافة عمود":
             return redirect('assistant:addclm',pk=pk)
-        
+
         elif request.POST.get("action")=="تعديل":
             titles,rows,address,script=Getclums(request.user,pk,1)
             subjects,yer,trm=subject(request.user)
@@ -132,7 +133,7 @@ def dgree(request,pk):#               دي انا سايبها لبعدين لا
             return redirect('assistant:dgree', pk=pk)
         elif request.POST.get("action")=="مسح الجدول":
             deleteclums(request,pk,False)
-        
+
 
         return redirect('assistant:dgree', pk=pk)
 
@@ -213,6 +214,3 @@ def home(request):
         "extend": "assiatant.html"
     }
     return render(request,"body.html",context)
-
-
-
