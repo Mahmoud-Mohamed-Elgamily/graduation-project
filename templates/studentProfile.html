@@ -30,11 +30,11 @@
                             <p>الرقم القومي<span>:</span> </p>
                         </div>
                         <div class="infor">
-                            <p>23</p>
-                            <p>22/3/1996</p>
-                            <p>مصري</p>
-                            <p>ذكر</p>
-                            <p>1891561232058</p>
+                            <p>{{ info.age }}</p>
+                            <p>{{ info.birthDate }}</p>
+                            <p>{{ info.nationality }}</p>
+                            <p>{{ info.gender }}</p>
+                            <p>{{ info.identityNumber }}</p>
                         </div> 
                     </div>
                 </div>
@@ -49,11 +49,11 @@
                             <p>الهاتف المنزلي<span>:</span> </p>
                         </div>
                         <div class="infor">
-                            <p>محمد محمود محمد الجميلي</p>
-                            <p>شبرا - مركز بني عبيد - الدقهليه</p>
-                            <p>01026029711</p>
-                            <p>01005198495</p>
-                            <p>0502648915</p>
+                            <p>{{ info.parentName }}</p>
+                            <p>{{ info.address }}</p>
+                            <p>{{ info.parentPhoneNumber }}</p>
+                            <p>{{ info.studentPhoneNumber }}</p>
+                            <p>{{ info.homeNumber }}</p>
                         </div> 
                     </div>
                 </div>
@@ -68,11 +68,11 @@
                             <p>رقم الجلوس<span>:</span> </p>
                         </div>
                         <div class="infor">
-                            <p>ثانوى عام رياضة</p>
-                            <p>2013-2014</p>
-                            <p>الأول</p>
-                            <p>615</p>
-                            <p>5628457</p>
+                            <p>{{ info.qualification }}</p>
+                            <p>{{ info.schoolYear }}</p>
+                            <p>{{ info.turn }}</p>
+                            <p>{{ info.grades }}</p>
+                            <p>{{ info.seatNumber }}</p>
                         </div> 
                     </div>
                 </div>
@@ -84,8 +84,8 @@
                             <p>عام<span>:</span> </p>
                         </div>
                         <div class="infor">
-                            <p>---------</p>
-                            <p>---------</p>
+                            <p>{{ info.instituteName|default:'-------' }}</p>
+                            <p>{{ info.instituteYear|default:'-------' }}</p>
                         </div> 
                     </div>
                 </div>

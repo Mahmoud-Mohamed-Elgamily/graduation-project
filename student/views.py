@@ -54,10 +54,13 @@ def home(request):
 @login_required
 def data(request):
     current_user = Students_user.objects.get(pk=request.user.id)
+    student_info = StudentData.objects.get(student=request.user.id)
+    
+    
     context={
         'name':current_user,
+        'info':student_info,
         'extend': 'student.html',
-        'extend':'student.html',
         'data':'true'
     }
     return render(request , 'studentProfile.html',context)
@@ -86,13 +89,6 @@ def grades(request):
         'quiz':quiz
     }
     return render(request , 'studentGrades.html',context)
-
-
-@login_required
-def absence(request):
-    pass
-
-
 
 @register.filter
 def get_item(dictionary, key):
