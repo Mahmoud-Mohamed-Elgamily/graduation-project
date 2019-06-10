@@ -28,18 +28,17 @@ from . import forms
 #     return render(request,"signup.html")
 
 def user_login(request):
-    print("request")
-    print(request)
     logerro=False
 
-    # handling logout
-    if request.user.is_authenticated:
-        logout(request)
+    # # handling logout
+    # if request.user.is_authenticated:
+    #     logout(request)
 
     if request.method =="POST":
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
+        print(user)
         if user is not None:
             login(request, user)
             if user.is_authenticated and user.is_teacher:
@@ -48,11 +47,11 @@ def user_login(request):
                 return redirect('student:home')
             elif user.is_authenticated and user.is_assistant:
                 return redirect('assistant:home')
-            else:
-                print ("someone tried to login and failed!")
-                print("username: {} and password: {}".format(username,password))
-                logerro=True
-                return render(request,'login.html',{'logerro':logerro})
+        else:
+            print ("someone tried to login and failed!")
+            print("username: {} and password: {}".format(username,password))
+            logerro=True
+            return render(request,'login.html',{'logerro':logerro})
     else:
         return render(request,'login.html',{'logerro':logerro})
 

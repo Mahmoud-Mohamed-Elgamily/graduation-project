@@ -1,9 +1,14 @@
+import sys
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import AbstractUser
+from PIL import Image
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
 
 
 class User(AbstractUser):
@@ -214,8 +219,8 @@ class StudentData(models.Model):
     place = models.CharField(max_length=400)
 
 # personal data
-    studentPhoneNumber = models.PositiveIntegerField()
-    identityNumber = models.PositiveIntegerField()
+    studentPhoneNumber = models.CharField(max_length=15)
+    identityNumber = models.CharField(max_length=25)
     nationality = models.CharField(max_length=100)
     age =models.PositiveIntegerField()
     gender = models.CharField(max_length=100, choices=GENDER_CHOICES)
@@ -241,6 +246,19 @@ class StudentData(models.Model):
 
     def __str__(self):
         return self.student.name
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.image = self.compressImage(self.image)
+        super(Upload, self).save(*args, **kwargs)
+    def compressImage(self,image):
+        imageTemproary = Image.open(image)
+        outputIoStream = BytesIO()
+        imageTemproaryResized = imageTemproary.resize( (1020,573) ) 
+        imageTemproary.save(outputIoStream , format='JPEG', quality=60)
+        outputIoStream.seek(0)
+        image = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.jpg" % image.name.split('.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
+        return image
 
 
 

@@ -10,7 +10,7 @@
 
     <div class="container">
         <div class="left-content">
-            <img src="{% static 'img/images.png' %}" alt="avatar">
+            <img src="{{ info.image.url }}" alt="avatar">
         </div>
         <div class="right-content">
             <span class="greeting">مرحبا</span>
@@ -23,70 +23,96 @@
                     <h6 style="color:#2dcc70">البيانات الشخصية</h6 style="color:#2dcc70">
                     <div class="detail-infor">
                         <div class="labels">
-                            <p>السن <span>:</span> </p>
-                            <p>تاريخ الميلاد<span>:</span> </p>
-                            <p>الجنسية<span>:</span> </p>
-                            <p>النوع<span>:</span> </p>
-                            <p>الرقم القومي<span>:</span> </p>
+                            <div>
+                                <p>السن <span>:</span> </p>
+                                <p class="data">{{ info.age }}</p>
+                            </div>
+                            <div>
+                                <p>تاريخ الميلاد<span>:</span> </p>
+                                <p class="data">{{ info.birthDate }}</p>
+                            </div>
+                            <div>
+                                <p>الجنسية<span>:</span> </p>
+                                <p class="data">{{ info.nationality }}</p>
+                            </div>
+                            <div>
+                                <p>النوع<span>:</span> </p>
+                                <p class="data">{{ info.gender }}</p>
+                            </div>
+                            <div>
+                                <p>الرقم القومي<span>:</span> </p>
+                                <p class="data">{{ info.identityNumber }}</p>
+                            </div>
                         </div>
-                        <div class="infor">
-                            <p>{{ info.age }}</p>
-                            <p>{{ info.birthDate }}</p>
-                            <p>{{ info.nationality }}</p>
-                            <p>{{ info.gender }}</p>
-                            <p>{{ info.identityNumber }}</p>
-                        </div> 
                     </div>
                 </div>
                 <div class="col-md-6 col-xs-12 mb-4 mt-2">
                     <h6 style="color:#2dcc70">بيانات التواصل</h6 style="color:#2dcc70">
                     <div class="detail-infor">
                         <div class="labels">
-                            <p>إسم الوالد <span>:</span> </p>
-                            <p>العنوان<span>:</span> </p>
-                            <p>رقم الوالد<span>:</span> </p>
-                            <p>رقم الطالب<span>:</span> </p>
-                            <p>الهاتف المنزلي<span>:</span> </p>
+                            <div>
+                                <p>إسم الوالد <span>:</span> </p>
+                                <p class="data">{{ info.parentName }}</p>
+                            </div>
+                            <div>
+                                <p>العنوان<span>:</span> </p>
+                                <p class="data">{{ info.address }}</p>
+                            </div>
+                            <div>
+                                <p>رقم الوالد<span>:</span> </p>
+                                <p class="data">{{ info.parentPhoneNumber }}</p>
+                            </div>
+                            <div>
+                                <p>رقم الطالب<span>:</span> </p>
+                                <p class="data">{{ info.studentPhoneNumber }}</p>
+                            </div>
+                            <div>
+                                <p>الهاتف المنزلي<span>:</span> </p>
+                                <p class="data">{{ info.homeNumber }}</p>
+                            </div>
                         </div>
-                        <div class="infor">
-                            <p>{{ info.parentName }}</p>
-                            <p>{{ info.address }}</p>
-                            <p>{{ info.parentPhoneNumber }}</p>
-                            <p>{{ info.studentPhoneNumber }}</p>
-                            <p>{{ info.homeNumber }}</p>
-                        </div> 
                     </div>
                 </div>
                 <div class="col-md-6 col-xs-12 mb-4 mt-2">
                     <h6 style="color:#2dcc70">بيانات التأهيل</h6 style="color:#2dcc70">
                     <div class="detail-infor">
                         <div class="labels">
-                            <p>المؤهل <span>:</span> </p>
-                            <p>عام<span>:</span> </p>
-                            <p>الدور<span>:</span> </p>
-                            <p>الدرجات<span>:</span> </p>
-                            <p>رقم الجلوس<span>:</span> </p>
+                            <div>
+                                <p>المؤهل <span>:</span> </p>
+                                <p class="data"> {{ info.qualification }} </p>
+                            </div>
+                            <div>
+                                <p>عام<span>:</span> </p>
+                                <p class="data"> {{ info.schoolYear }} </p>
+                            </div>
+                            <div>
+                                <p>الدور<span>:</span> </p>
+                                <p class="data"> {{ info.turn }} </p>
+                            </div>
+                            <div>
+                                <p>الدرجات<span>:</span> </p>
+                                <p class="data"> {{ info.grades }} </p>
+                            </div>
+                            <div>
+                                <p>رقم الجلوس<span>:</span> </p>
+                                <p class="data"> {{ info.seatNumber }} </p>
+                            </div>
                         </div>
-                        <div class="infor">
-                            <p>{{ info.qualification }}</p>
-                            <p>{{ info.schoolYear }}</p>
-                            <p>{{ info.turn }}</p>
-                            <p>{{ info.grades }}</p>
-                            <p>{{ info.seatNumber }}</p>
-                        </div> 
                     </div>
                 </div>
                 <div class="col-md-6 col-xs-12 mb-4 mt-2">
                     <h6 style="color:#2dcc70">مؤهل طلاب المعاهد</h6 style="color:#2dcc70">
                     <div class="detail-infor">
                         <div class="labels">
-                            <p>إسم المعهد<span>:</span> </p>
-                            <p>عام<span>:</span> </p>
+                            <div>
+                                <p>إسم المعهد<span>:</span> </p>
+                                <p class="data"> {{ info.instituteName|default:'-------' }} </p>
+                            </div>
+                            <div>
+                                <p>عام<span>:</span> </p>
+                                <p class="data"> {{ info.instituteYear|default:'-------' }} </p>
+                            </div>
                         </div>
-                        <div class="infor">
-                            <p>{{ info.instituteName|default:'-------' }}</p>
-                            <p>{{ info.instituteYear|default:'-------' }}</p>
-                        </div> 
                     </div>
                 </div>
             </div>

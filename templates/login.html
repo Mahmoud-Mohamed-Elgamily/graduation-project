@@ -29,8 +29,8 @@
   <div id='login'>
 
     {% if logerro %}
-    <p class="class3">your username and password didn't match please try again. </p>
-    <hr>
+        <p class="class3">your username and password didn't match please try again. </p>
+        <hr>
     {% endif %}
     <form  method="post" class="form-group">
       {% csrf_token %}
