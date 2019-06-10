@@ -1,0 +1,85 @@
+{% extends "doctor/base.html" %}
+{% block content %}
+
+
+<div class="text-center" >
+	<h1>وزارة التربية والتعليم</h1>
+	<h3>معهد النيل العالي للهندسة والتكنلوجيا</h3>
+	<img src="http://www.nilehi.edu.eg/images/logo.png" class="rounded" alt="...">
+	<h4>  {{student.get_term_Students_display}}</h4>
+	<h1>{{doctor.name_Dectors}}</h1>
+</div>
+
+
+<br>
+<div class="text-center" >
+
+	  <h4>جدول الترم الحالي</h4>
+</div>
+
+
+<br>
+
+	<div class="row">
+
+	<div class="col col-lg-1.5">
+	  السبت
+	</div>
+	<div class="col col-lg-1.5">
+	  الاحد
+	</div>
+	<div class="col col-lg-1.5">
+	  الاثنين
+	</div>
+	<div class="col col-lg1.5">
+	  الثلاثاء
+	</div>
+	<div class="col col-lg-1.5">
+	  الاربعاء
+	</div>
+	<div class="col col-lg-1.5">
+	  الخميس
+	</div>
+	<div class="col col-lg-1.5">
+	  الفطرة/اليوم
+	</div>
+	</div>
+
+
+
+	<div class="row">
+	<div class="col col-lg-12">
+	<hr>
+	</div>
+	</div>
+
+	{% for day in T %}
+	<div class="row">
+	{% for interval in day %}
+
+
+
+	<div class="col col-lg-1.5">
+		{% if interval%}
+	  {{interval}}
+		{% endif %}
+	</div>
+{% endfor %}
+	</div>
+
+
+
+
+<div class="row">
+<div class="col col-lg-12">
+	<hr>
+	</div>
+</div>
+
+
+{% endfor %}
+
+<div class="row">
+</div>
+
+{% endblock %}

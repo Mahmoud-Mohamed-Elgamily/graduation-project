@@ -3,7 +3,7 @@
 
 <h1 align="center">{{address}}</h1>
 <div class="container">
-  <form class="form-group row" method="post">
+  <form class="form-group row form" method="post">
   {% csrf_token %}
 
 
@@ -28,7 +28,7 @@
   {% if register %}
     <div class="row">
         <div class="col">
-          <input align="center" type="submit" name="action" value="مسح الجدول" class="btn btn-danger">
+          <input align="center" type="submit" name="action" value="مسح الجدول" class="delete btn btn-danger">
         </div>
         <div class="col">
           <input align="center" type="submit" name="action" value="مسح المحدد" class="btn btn-danger">
@@ -40,7 +40,7 @@
           <input align="center" type="submit" name="action" value="تعديل" class="btn btn-warning">
         </div>
         <div class="col">
-          <input align="center" type="submit" name="action" value="تسجيل" class="btn btn-success">
+          <input  align="center" type="submit" name="action" value="تسجيل" class="click btn btn-success">
         </div>
         <div class="col">
           <input align="center" type="submit" name="action" value="اعلان.المحدد.للطلبة" class="btn btn-secondary">
