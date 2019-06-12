@@ -208,6 +208,7 @@ def home(request):
     subjects,yer,trm=subject(request.user)
     context={
         'name':'د/ '+current_user.name,
+        "user":current_user,
         "subjects":subjects,
         "extend": "basic.html"
     }

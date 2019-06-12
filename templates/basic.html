@@ -42,6 +42,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
+                    
+                    {% if request.user.is_superuser %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'doctor:subjects' %}">صفحة الأدمن</a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item {% if subject == 'true' %}active{% endif %}">
                         <a class="nav-link" href="{% url 'doctor:subjects' %}">المواد الدراسية</a>
                     </li>
